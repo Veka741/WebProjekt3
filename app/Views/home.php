@@ -22,8 +22,8 @@
 
         <h2 style="margin: 1.5rem 0 1rem 0; color: #667eea;">Jak to funguje?</h2>
         <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
-            <li>Prohlédněte si naši <a href="/gallery" style="color: #667eea;">galerii koček</a></li>
-            <li>Pokud chcete přidat novou kočku, jděte do sekce <a href="/manage" style="color: #667eea;">Správa</a></li>
+            <li>Prohlédněte si naši <?= anchor('gallery', 'galerii koček', 'style="color: #667eea;"'); ?></li>
+            <li>Pokud chcete přidat novou kočku, jděte do sekce <?= anchor('manage', 'Správa', 'style="color: #667eea;"'); ?></li>
             <li>Vyplňte informace o kočce a nahrajte fotku</li>
             <li>Ostatní mohou vidět váš inzerát a kontaktovat vás</li>
         </ol>

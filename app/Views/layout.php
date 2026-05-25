@@ -100,9 +100,15 @@
             <nav>
                 <div class="logo">🐱 Portál adopce koček</div>
                 <ul>
-                    <li><a href="/">O nás</a></li>
-                    <li><a href="/gallery">Galerie</a></li>
-                    <li><a href="/manage">Správa</a></li>
+                    <li>
+                        <?= anchor('/', 'O nás', 'nav-link'); ?>
+                    </li>
+                    <li>
+                        <?= anchor('gallery', 'Galerie', 'nav-link'); ?>
+                    </li>
+                    <li>
+                        <?= anchor('manage', 'Správa', 'nav-link'); ?>
+                    </li>
                 </ul>
             </nav>
         </div>

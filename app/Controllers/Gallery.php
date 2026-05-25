@@ -2,20 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Models\CatModel;
+use App\Models\Cat;
 
 class Gallery extends BaseController
 {
-    protected $catModel;
+    protected $Cat;
 
     public function __construct()
     {
-        $this->catModel = new CatModel();
+        $this->Cat = new Cat();
     }
 
     public function index()
     {
-        $cats = $this->catModel->getAllCats();
+        $cats = $this->Cat->findAll();
         $data = [
             'title' => 'Galerie koček - Portál adopce',
             'cats' => $cats
