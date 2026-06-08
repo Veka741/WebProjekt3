@@ -19,7 +19,7 @@
                 <div class="cat-management-card">
                     <div class="card-header">
                         <?php if (!empty($cat['photo'] ?? null)): ?>
-                            <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
+                            <img src="<?= base_url('images/'.$cat['photo'].'.jpg') ?>" alt="<?= $cat['name'] ?>">
                         <?php else: ?>
                             <div class="placeholder-image"></div>
                         <?php endif; ?>
