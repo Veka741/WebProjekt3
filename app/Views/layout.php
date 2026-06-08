@@ -143,7 +143,7 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">🐱 Adopce Koček</div>
+                <div class="logo">Adopce Koček</div>
                 <ul>
                     <li>
                         <?= anchor('/', 'Domů', 'nav-link'); ?>
@@ -185,7 +185,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena. 💚</p>
+            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena.</p>
         </div>
     </footer>
 </body>

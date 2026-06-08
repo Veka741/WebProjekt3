@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 <div class="about-section">
-    <h1>🐱 Vítejte na našem portálu adopce koček!</h1>
+    <h1>Vítejte na našem portálu adopce koček!</h1>
     
     <div class="about-content">
         <h2>O nás</h2>
@@ -13,10 +13,10 @@
 
         <h2>Co nabízíme?</h2>
         <ul>
-            <li>📋 Rozsáhlý katalog dostupných koček k adopci</li>
-            <li>💚 Přehledy úspěšně adoptovaných koček</li>
-            <li>👥 Správu profilu majitelů/organizací</li>
-            <li>⚙️ Snadné přidávání a spravování inzerátů</li>
+            <li>Rozsáhlý katalog dostupných koček k adopci</li>
+            <li>Přehledy úspěšně adoptovaných koček</li>
+            <li>Správu profilu majitelů/organizací</li>
+            <li>Snadné přidávání a spravování inzerátů</li>
         </ul>
 
         <h2>Jak to funguje?</h2>
@@ -32,8 +32,8 @@
             <h3>Začněte hned!</h3>
             <p>Procházejte naši galerii nebo přidejte vlastní inzerát.</p>
             <div class="cta-buttons">
-                <a href="/gallery" class="btn btn-primary">🖼️ Procházet galerii</a>
-                <a href="/manage/add" class="btn btn-secondary">➕ Přidat inzerát</a>
+                <a href="/gallery" class="btn btn-primary">Procházet galerii</a>
+                <a href="/manage/add" class="btn btn-secondary">Přidat inzerát</a>
             </div>
         </div>
     </div>

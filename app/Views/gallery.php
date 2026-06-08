@@ -12,17 +12,17 @@
         <div class="cats-grid">
             <?php foreach ($cats as $cat): ?>
                 <div class="cat-card">
-                    <div class="cat-photo">
-                        <?php if ($cat['photo']): ?>
-                            <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
-                        <?php else: ?>
-                            <div class="placeholder">🐱</div>
-                        <?php endif; ?>
-                    </div>
+                <div class="cat-photo">
+                    <?php if (!empty($cat['photo'] ?? null)): ?>
+                        <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
+                    <?php else: ?>
+                        <div class="placeholder">🐱</div>
+                    <?php endif; ?>
+                </div>
 
                     <div class="cat-info">
                         <h3><?= $cat['name'] ?></h3>
-                        <p class="breed"><?= $cat['breed'] ?></p>
+                        <p class="breed"><?= $cat['breed'] ?? 'Neznámé plemeno' ?></p>
                         <p class="details">
                             <span><?= $cat['age'] ?> let</span> • 
                             <span><?= $cat['gender'] === 'male' ? '♂️ Samec' : '♀️ Samice' ?></span>
@@ -33,7 +33,7 @@
                         <?php endif; ?>
 
                         <div class="card-footer">
-                            <span class="contact">Kontakt: <?= $cat['user_id'] ?></span>
+                            <span class="contact">Kontakt: <?= $cat['user_id'] ?? 'Neznámý uživatel' ?></span>
                         </div>
                     </div>
                 </div>
