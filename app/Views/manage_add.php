@@ -51,8 +51,8 @@
                 <label for="gender">Pohlaví *</label>
                 <select id="gender" name="gender" required>
                     <option value="">-- Vyberte --</option>
-                    <option value="male" <?= old('gender') === 'male' ? 'selected' : '' ?>>♂️ Samec</option>
-                    <option value="female" <?= old('gender') === 'female' ? 'selected' : '' ?>>♀️ Samice</option>
+                    <option value="male" <?= old('gender') === 'male' ? 'selected' : '' ?>>Samec</option>
+                    <option value="female" <?= old('gender') === 'female' ? 'selected' : '' ?>>Samice</option>
                 </select>
             </div>
 

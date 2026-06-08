@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-city"><?= $user['city'] ?></div>
                         <div class="col-actions">
-                            <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">✏️</a>
+                            <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">editovat</a>
                             <a href="/admin/users/soft-delete/<?= $user['id'] ?>" class="btn-action btn-delete" title="Archivovat" onclick="return confirm('Archivovat tohoto uživatele?');">🗑️</a>
                         </div>
                     </div>

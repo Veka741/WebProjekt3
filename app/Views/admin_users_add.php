@@ -54,9 +54,9 @@
             <label for="role">Role *</label>
             <select id="role" name="role" required>
                 <option value="">-- Vyberte roli --</option>
-                <option value="user" <?= old('role') === 'user' ? 'selected' : '' ?>>👤 Uživatel</option>
-                <option value="volunteer" <?= old('role') === 'volunteer' ? 'selected' : '' ?>>🤝 Dobrovolník</option>
-                <option value="admin" <?= old('role') === 'admin' ? 'selected' : '' ?>>👨‍💼 Administrátor</option>
+                <option value="user" <?= old('role') === 'user' ? 'selected' : '' ?>>Uživatel</option>
+                <option value="volunteer" <?= old('role') === 'volunteer' ? 'selected' : '' ?>>Dobrovolník</option>
+                <option value="admin" <?= old('role') === 'admin' ? 'selected' : '' ?>>Administrátor</option>
             </select>
         </div>
 

@@ -54,11 +54,11 @@
                     </div>
 
                     <div class="card-actions">
-                        <a href="/manage/edit/<?= $cat['id'] ?>" class="btn btn-small btn-edit">✏️ Editovat</a>
+                        <a href="/manage/edit/<?= $cat['id'] ?>" class="btn btn-small btn-edit">Editovat</a>
                         <?php if ($cat['status'] !== 'adopted'): ?>
-                            <a href="/manage/adopt/<?= $cat['id'] ?>" class="btn btn-small btn-adopt" onclick="return confirm('Označit tuto kočku jako adoptovanou?');">💚 Adoptovaná</a>
+                            <a href="/manage/adopt/<?= $cat['id'] ?>" class="btn btn-small btn-adopt" onclick="return confirm('Označit tuto kočku jako adoptovanou?');">Adoptovaná</a>
                         <?php endif; ?>
-                        <a href="/manage/soft-delete/<?= $cat['id'] ?>" class="btn btn-small btn-archive" onclick="return confirm('Archivovat tuto kočku? (Lze obnovit)'); ">📦 Archivovat</a>
+                        <a href="/manage/soft-delete/<?= $cat['id'] ?>" class="btn btn-small btn-archive" onclick="return confirm('Archivovat tuto kočku? (Lze obnovit)'); ">Archivovat</a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -105,21 +105,21 @@
     }
 
     .btn-edit {
-        background-color: #4caf50;
+        background-color: #929292ff;
         color: white;
     }
 
     .btn-edit:hover {
-        background-color: #45a049;
+        background-color: #758075ff;
     }
 
     .btn-adopt {
-        background-color: #2196f3;
+        background-color: #df4580ff;
         color: white;
     }
 
     .btn-adopt:hover {
-        background-color: #0b7dda;
+        background-color: #dd0f76ff;
     }
 
     .btn-archive {
