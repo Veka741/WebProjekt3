@@ -17,6 +17,7 @@ class App extends BaseConfig
      * E.g., http://example.com/
      */
     public string $baseURL = 'http://localhost:8080/sustkova/WebProjekt3';
+    public string $baseURL = 'http://localhost/sustkova/WebProjekt3/';
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
@@ -29,7 +30,7 @@ class App extends BaseConfig
      *
      * @var list<string>
      */
-    public array $allowedHostnames = [];
+    public array $allowedHostnames = ['sustkova/WebProjekt3'];
 
     /**
      * --------------------------------------------------------------------------

@@ -32,7 +32,7 @@
             <h3>Začněte hned!</h3>
             <p>Procházejte naši galerii nebo přidejte vlastní inzerát.</p>
             <div class="cta-buttons">
-                <a href="/gallery" class="btn btn-primary">Procházet galerii</a>
+                <a href="/gallery" class="btn btn-primary">🖼️ Procházet galerii</a>
                 <a href="/manage/add" class="btn btn-secondary">➕ Přidat inzerát</a>
             </div>
         </div>

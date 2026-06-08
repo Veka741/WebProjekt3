@@ -145,11 +145,21 @@
             <nav>
                 <div class="logo">Adopce Koček</div>
                 <ul>
-                    <li><a href="/">Domů</a></li>
-                    <li><a href="/gallery">Galerie</a></li>
-                    <li><a href="/success">Úspěšné adopce</a></li>
-                    <li><a href="/manage">Správa koček</a></li>
-                    <li><a href="/admin/users">Uživatelé</a></li>
+                    <li>
+                        <?= anchor('/', 'Domů', 'nav-link'); ?>
+                    </li>
+                    <li>
+                        <?= anchor('gallery', 'Galerie', 'nav-link'); ?>
+                    </li>
+                    <li>
+                        <?= anchor('success', 'Úspěšné adopce', 'nav-link'); ?>
+                    </li>
+                    <li>
+                        <?= anchor('manage', 'Správa', 'nav-link'); ?>
+                    </li>
+                    <li>
+                        <?= anchor('admin_users', 'Uživatelé', 'nav-link'); ?>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -175,7 +185,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena. </p>
+            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena.</p>
         </div>
     </footer>
 </body>
