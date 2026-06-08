@@ -4,13 +4,13 @@
 <?= $this->section('content') ?>
 <div class="manage-section">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-        <h1>📋 Správa inzerátů</h1>
+        <h1>Správa inzerátů</h1>
         <a href="/manage/add" class="btn btn-primary">+ Přidat novou kočku</a>
     </div>
 
     <?php if (empty($cats)): ?>
         <div style="background-color: white; padding: 3rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-            <p style="font-size: 1.3rem; color: #667eea; margin-bottom: 1.5rem;">🎉 Zatím jste nepřidali žádné kočky.</p>
+            <p style="font-size: 1.3rem; color: #667eea; margin-bottom: 1.5rem;"> Zatím jste nepřidali žádné kočky.</p>
             <a href="/manage/add" class="btn btn-primary btn-large">Přidat první kočku</a>
         </div>
     <?php else: ?>
@@ -21,7 +21,7 @@
                         <?php if ($cat['photo']): ?>
                             <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
                         <?php else: ?>
-                            <div class="placeholder-image">🐱</div>
+                            <div class="placeholder-image"></div>
                         <?php endif; ?>
                         <div class="status-badge <?= $cat['status'] ?>">
                             <?php if ($cat['status'] === 'adopted'): ?>
@@ -90,7 +90,7 @@
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #757c9bff 0%, #a99bb8ff 100%);
         color: white;
     }
 
@@ -169,7 +169,7 @@
     .placeholder-image {
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #9098bdff 0%, #856e9cff 100%);
         display: flex;
         align-items: center;
         justify-content: center;

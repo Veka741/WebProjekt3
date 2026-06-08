@@ -20,7 +20,7 @@
         }
 
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #bec4dfff 0%, #000000ff 100%);
             color: white;
             padding: 1.5rem 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -143,13 +143,13 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">🐱 Adopce Koček</div>
+                <div class="logo">Adopce Koček</div>
                 <ul>
-                    <li><a href="/">🏠 Domů</a></li>
-                    <li><a href="/gallery">🖼️ Galerie</a></li>
-                    <li><a href="/success">💚 Úspěšné adopce</a></li>
-                    <li><a href="/manage">⚙️ Správa koček</a></li>
-                    <li><a href="/admin/users">👥 Uživatelé</a></li>
+                    <li><a href="/">Domů</a></li>
+                    <li><a href="/gallery">Galerie</a></li>
+                    <li><a href="/success">Úspěšné adopce</a></li>
+                    <li><a href="/manage">Správa koček</a></li>
+                    <li><a href="/admin/users">Uživatelé</a></li>
                 </ul>
             </nav>
         </div>
@@ -175,7 +175,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena. 💚</p>
+            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena. </p>
         </div>
     </footer>
 </body>

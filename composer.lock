@@ -142,12 +142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-escaper.git",
-                "reference": "5871f9d9cd99228d3ebf46c3d8c378b9413a73b0"
+                "reference": "ffa9f3f71996b7aa4512428cb66b9bc978eabfe7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/5871f9d9cd99228d3ebf46c3d8c378b9413a73b0",
-                "reference": "5871f9d9cd99228d3ebf46c3d8c378b9413a73b0",
+                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/ffa9f3f71996b7aa4512428cb66b9bc978eabfe7",
+                "reference": "ffa9f3f71996b7aa4512428cb66b9bc978eabfe7",
                 "shasum": ""
             },
             "require": {
@@ -196,7 +196,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2026-05-25T00:55:24+00:00"
+            "time": "2026-06-08T02:08:33+00:00"
         },
         {
             "name": "psr/log",
@@ -932,12 +932,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "7ff6a67355c0054e2e3ffda6cb0aea766911c12d"
+                "reference": "bd2c636dd77eb00ebcf2b42a30b8d80079dfb094"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7ff6a67355c0054e2e3ffda6cb0aea766911c12d",
-                "reference": "7ff6a67355c0054e2e3ffda6cb0aea766911c12d",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/bd2c636dd77eb00ebcf2b42a30b8d80079dfb094",
+                "reference": "bd2c636dd77eb00ebcf2b42a30b8d80079dfb094",
                 "shasum": ""
             },
             "require": {
@@ -1017,7 +1017,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2026-06-02T19:50:22+00:00"
+            "time": "2026-06-07T08:26:21+00:00"
         },
         {
             "name": "psr/container",
@@ -2034,12 +2034,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "50f59d1f3ca46d41ac911f97a78626b6756af35b"
+                "reference": "f3202fa1b5097b0af062dc978b32ecf63404e31d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/50f59d1f3ca46d41ac911f97a78626b6756af35b",
-                "reference": "50f59d1f3ca46d41ac911f97a78626b6756af35b",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/f3202fa1b5097b0af062dc978b32ecf63404e31d",
+                "reference": "f3202fa1b5097b0af062dc978b32ecf63404e31d",
                 "shasum": ""
             },
             "require": {
@@ -2098,7 +2098,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-13T15:52:40+00:00"
+            "time": "2026-06-05T06:23:12+00:00"
         },
         {
             "name": "theseer/tokenizer",

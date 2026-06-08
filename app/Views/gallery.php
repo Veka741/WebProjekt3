@@ -2,11 +2,11 @@
 
 <?= $this->section('content') ?>
 <div class="gallery-section">
-    <h1>🐱 Galerie dostupných koček</h1>
+    <h1>Galerie dostupných koček</h1>
     
     <?php if (empty($cats)): ?>
         <div style="background-color: white; padding: 3rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-            <p style="font-size: 1.3rem; color: #667eea; margin-bottom: 1.5rem;">Zatím nejsou dostupné žádné kočky.</p>
+            <p style="font-size: 1.3rem; color: #787f9bff; margin-bottom: 1.5rem;">Zatím nejsou dostupné žádné kočky.</p>
         </div>
     <?php else: ?>
         <div class="cats-grid">
@@ -16,7 +16,7 @@
                         <?php if ($cat['photo']): ?>
                             <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
                         <?php else: ?>
-                            <div class="placeholder">🐱</div>
+                            <div class="placeholder"></div>
                         <?php endif; ?>
                     </div>
 
@@ -25,7 +25,7 @@
                         <p class="breed"><?= $cat['breed'] ?></p>
                         <p class="details">
                             <span><?= $cat['age'] ?> let</span> • 
-                            <span><?= $cat['gender'] === 'male' ? '♂️ Samec' : '♀️ Samice' ?></span>
+                            <span><?= $cat['gender'] === 'male' ? 'Samec' : 'Samice' ?></span>
                         </p>
 
                         <?php if ($cat['description']): ?>
@@ -44,7 +44,7 @@
 
 <style>
     .gallery-section h1 {
-        color: #667eea;
+        color: #767b94ff;
         margin-bottom: 2rem;
         font-size: 2rem;
         text-align: center;
@@ -90,7 +90,7 @@
         align-items: center;
         justify-content: center;
         font-size: 80px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #8d93adff 0%, #764ba2 100%);
     }
 
     .cat-info {
