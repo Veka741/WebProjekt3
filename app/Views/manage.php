@@ -18,7 +18,7 @@
             <?php foreach ($cats as $cat): ?>
                 <div class="cat-management-card">
                     <div class="card-header">
-                        <?php if ($cat['photo']): ?>
+                        <?php if (!empty($cat['photo'] ?? null)): ?>
                             <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
                         <?php else: ?>
                             <div class="placeholder-image">🐱</div>
@@ -36,7 +36,7 @@
                         <h3><?= $cat['name'] ?></h3>
                         <div class="info-row">
                             <span class="label">Plemeno:</span>
-                            <span><?= $cat['breed'] ?></span>
+                            <span><?= $cat['breed'] ?? 'Neznámé plemeno' ?></span>
                         </div>
                         <div class="info-row">
                             <span class="label">Věk:</span>

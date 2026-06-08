@@ -17,7 +17,7 @@
             <?php foreach ($cats as $cat): ?>
                 <div class="success-card">
                     <div class="success-image">
-                        <?php if ($cat['photo']): ?>
+                        <?php if (!empty($cat['photo'] ?? null)): ?>
                             <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
                         <?php else: ?>
                             <div class="placeholder">🐱</div>
@@ -28,7 +28,7 @@
                     <div class="success-info">
                         <h3><?= $cat['name'] ?></h3>
                         <p class="cat-details">
-                            <strong><?= $cat['breed'] ?></strong> • <?= $cat['age'] ?> let • 
+                            <strong><?= $cat['breed'] ?? 'Neznámé plemeno' ?></strong> • <?= $cat['age'] ?> let • 
                             <span class="gender">
                                 <?= $cat['gender'] === 'male' ? '♂️ Samec' : '♀️ Samice' ?>
                             </span>
