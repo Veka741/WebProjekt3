@@ -18,7 +18,7 @@
                 <div class="success-card">
                     <div class="success-image">
                         <?php if (!empty($cat['photo'] ?? null)): ?>
-                            <img src="<?= base_url('images/'.$cat['photo']) ?>" alt="<?= $cat['name'] ?>">
+                            <img src="<?= base_url('images/'.$cat['photo'].'.jpg') ?>" alt="<?= $cat['name'] ?>">
                         <?php else: ?>
                             <div class="placeholder"> </div>
                         <?php endif; ?>
