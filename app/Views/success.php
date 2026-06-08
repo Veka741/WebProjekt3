@@ -3,14 +3,14 @@
 <?= $this->section('content') ?>
 <div class="success-section">
     <div class="success-header">
-        <h1>💚 Úspěšné adopce</h1>
+        <h1> Úspěšné adopce</h1>
         <p>Zde jsou všechny koček, které našly svůj nový domov!</p>
     </div>
 
     <?php if (empty($cats)): ?>
         <div style="background-color: white; padding: 3rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
             <p style="font-size: 1.2rem; color: #667eea; margin-bottom: 1rem;">Zatím nejsou žádné adoptované kočky.</p>
-            <a href="/gallery" style="color: #667eea; text-decoration: none; font-weight: bold;">→ Podívejte se na naši galerii</a>
+            <a href="/gallery" style="color: #8b91afff; text-decoration: none; font-weight: bold;">→ Podívejte se na naši galerii</a>
         </div>
     <?php else: ?>
         <div class="success-grid">
@@ -20,7 +20,7 @@
                         <?php if (!empty($cat['photo'] ?? null)): ?>
                             <img src="<?= base_url('images/'.$cat['photo']) ?>" alt="<?= $cat['name'] ?>">
                         <?php else: ?>
-                            <div class="placeholder">🐱</div>
+                            <div class="placeholder"> </div>
                         <?php endif; ?>
                         <div class="adopted-badge">✓ ADOPTOVANÁ</div>
                     </div>
@@ -30,7 +30,7 @@
                         <p class="cat-details">
                             <strong><?= $cat['breed'] ?? 'Neznámé plemeno' ?></strong> • <?= $cat['age'] ?> let • 
                             <span class="gender">
-                                <?= $cat['gender'] === 'male' ? '♂️ Samec' : '♀️ Samice' ?>
+                                <?= $cat['gender'] === 'male' ? 'Samec' : 'Samice' ?>
                             </span>
                         </p>
 
@@ -59,7 +59,7 @@
     }
 
     .success-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #8f99c5ff 0%, #a393b3ff 100%);
         color: white;
         padding: 3rem 2rem;
         border-radius: 10px;

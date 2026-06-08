@@ -4,7 +4,7 @@
 <?= $this->section('content') ?>
 <div class="admin-section">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
-        <h1>👥 Správa uživatelů</h1>
+        <h1>Správa uživatelů</h1>
         <a href="/admin/users/add" class="btn btn-primary">+ Přidat nového uživatele</a>
     </div>
 
@@ -34,12 +34,12 @@
                         <div class="col-phone"><?= $user['phone'] ?></div>
                         <div class="col-type">
                             <span class="badge badge-<?= $user['type'] === 'individual' ? 'blue' : 'green' ?>">
-                                <?= $user['type'] === 'individual' ? '👤 Jednotlivec' : '🏢 Organizace' ?>
+                                <?= $user['type'] === 'individual' ? 'Jednotlivec' : 'Organizace' ?>
                             </span>
                         </div>
                         <div class="col-city"><?= $user['city'] ?></div>
                         <div class="col-actions">
-                            <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">✏️</a>
+                            <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">editovat</a>
                             <a href="/admin/users/soft-delete/<?= $user['id'] ?>" class="btn-action btn-delete" title="Archivovat" onclick="return confirm('Archivovat tohoto uživatele?');">🗑️</a>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
     <!-- Archivovaní uživatelé -->
     <?php if (!empty($deletedUsers)): ?>
         <div class="section-box" style="margin-top: 2rem; opacity: 0.8;">
-            <h2>📦 Archivovaní uživatelé (<?= count($deletedUsers) ?>)</h2>
+            <h2>Archivovaní uživatelé (<?= count($deletedUsers) ?>)</h2>
             
             <div class="users-table">
                 <div class="table-header">
@@ -72,7 +72,7 @@
                         <div class="col-phone"><?= $user['phone'] ?></div>
                         <div class="col-type">
                             <span class="badge badge-<?= $user['type'] === 'individual' ? 'blue' : 'green' ?>">
-                                <?= $user['type'] === 'individual' ? '👤 Jednotlivec' : '🏢 Organizace' ?>
+                                <?= $user['type'] === 'individual' ? 'Jednotlivec' : 'Organizace' ?>
                             </span>
                         </div>
                         <div class="col-city"><?= $user['city'] ?></div>

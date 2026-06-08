@@ -3,7 +3,7 @@
 
 <?= $this->section('content') ?>
 <div class="form-section">
-    <h1>✏️ Editovat kočku</h1>
+    <h1>Editovat kočku</h1>
 
     <?php if (!empty($errors ?? [])): ?>
         <div class="alert alert-error show" style="margin-bottom: 2rem;">
@@ -38,8 +38,8 @@
             <div class="form-group">
                 <label for="gender">Pohlaví *</label>
                 <select id="gender" name="gender" required>
-                    <option value="male" <?= ($cat['gender'] ?? '') === 'male' ? 'selected' : '' ?>>♂️ Samec</option>
-                    <option value="female" <?= ($cat['gender'] ?? '') === 'female' ? 'selected' : '' ?>>♀️ Samice</option>
+                    <option value="male" <?= ($cat['gender'] ?? '') === 'male' ? 'selected' : '' ?>>Samec</option>
+                    <option value="female" <?= ($cat['gender'] ?? '') === 'female' ? 'selected' : '' ?>>Samice</option>
                 </select>
             </div>
 

@@ -7,8 +7,8 @@
     <div class="about-content">
         <h2>O nás</h2>
         <p>
-            Jsme komunitní portál zaměřený na hledání milujících domovů pro kozy. 
-            Naše mise je spojit láskavcí lidi s jejich budoucími kočičími miláčky.
+            Jsme komunitní portál zaměřený na hledání milujících domovů pro kočky. 
+           
         </p>
 
         <h2>Co nabízíme?</h2>
@@ -22,18 +22,18 @@
         <h2>Jak to funguje?</h2>
         <ol>
             <li>Přihlaste se nebo si vytvořte profil</li>
-            <li>Procházejte naši galerii dostupných koček</li>
+            <li>Procházejte  galerii dostupných koček</li>
             <li>Vyberte si kočku, která se vám líbí</li>
             <li>Kontaktujte majitele pro dohodnutí adopce</li>
-            <li>Užívejte si nového člena své rodiny!</li>
+
         </ol>
 
         <div class="cta-box">
             <h3>Začněte hned!</h3>
             <p>Procházejte naši galerii nebo přidejte vlastní inzerát.</p>
             <div class="cta-buttons">
-                <a href="/gallery" class="btn btn-primary">Procházet galerii</a>
-                <a href="/manage/add" class="btn btn-secondary">Přidat inzerát</a>
+                <a href="/gallery" class="btn btn-primary"> Procházet galerii</a>
+                <a href="/manage/add" class="btn btn-secondary">➕ Přidat inzerát</a>
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
     }
 
     .about-section h1 {
-        color: #667eea;
+        color: #aebaf0ff;
         margin-bottom: 2rem;
         font-size: 2.5rem;
         text-align: center;
@@ -61,7 +61,7 @@
     }
 
     .about-content h2 {
-        color: #667eea;
+        color: #6f7694ff;
         margin: 1.5rem 0 1rem 0;
         font-size: 1.5rem;
     }
@@ -83,7 +83,7 @@
     }
 
     .cta-box {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #8e8f92ff 0%, #c3abdbff 100%);
         color: white;
         padding: 2rem;
         border-radius: 10px;

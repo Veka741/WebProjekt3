@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 <div class="form-section">
-    <h1>✏️ Editovat uživatele</h1>
+    <h1>Editovat uživatele</h1>
 
     <?php if (!empty($errors ?? [])): ?>
         <div class="alert alert-error show" style="margin-bottom: 2rem;">
@@ -35,8 +35,8 @@
             <div class="form-group">
                 <label for="type">Typ uživatele *</label>
                 <select id="type" name="type" required>
-                    <option value="individual" <?= ($user['type'] ?? '') === 'individual' ? 'selected' : '' ?>>👤 Jednotlivec</option>
-                    <option value="organization" <?= ($user['type'] ?? '') === 'organization' ? 'selected' : '' ?>>🏢 Organizace</option>
+                    <option value="individual" <?= ($user['type'] ?? '') === 'individual' ? 'selected' : '' ?>>Jednotlivec</option>
+                    <option value="organization" <?= ($user['type'] ?? '') === 'organization' ? 'selected' : '' ?>>Organizace</option>
                 </select>
             </div>
 
