@@ -4,7 +4,7 @@
 <div class="success-section">
     <div class="success-header">
         <h1> Úspěšné adopce</h1>
-        <p>Zde jsou všechny koček, které našly svůj nový domov!</p>
+        <p>Zde jsou všechny kočky, které našly svůj nový domov!</p>
     </div>
 
     <?php if (empty($cats)): ?>
@@ -27,11 +27,10 @@
 
                     <div class="success-info">
                         <h3><?= $cat['name'] ?></h3>
-                        <p class="cat-details">
-                            <strong><?= $cat['breed'] ?? 'Neznámé plemeno' ?></strong> • <?= $cat['age'] ?> let • 
-                            <span class="gender">
-                                <?= $cat['gender'] === 'male' ? 'Samec' : 'Samice' ?>
-                            </span>
+                        <p class="breed"><?= $cat['breed'] ?: 'Neznámé plemeno' ?></p>
+                        <p class="details">
+                            <span><?= $cat['age'] ?> let</span> • 
+                            <span><?= $cat['gender'] === 'male' ? 'Kluk' : 'Holka' ?></span>
                         </p>
 
                         <?php if ($cat['description']): ?>

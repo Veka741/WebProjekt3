@@ -12,20 +12,20 @@
         <div class="cats-grid">
             <?php foreach ($cats as $cat): ?>
                 <div class="cat-card">
-                <div class="cat-photo">
-                    <?php if (!empty($cat['photo'] ?? null)): ?>
-                        <img src="<?= base_url('images/'.$cat['photo'].'.jpg') ?>" alt="<?= $cat['name'] ?>">
-                    <?php else: ?>
-                        <div class="placeholder">🐱</div>
-                    <?php endif; ?>
-                </div>
+                    <div class="cat-photo">
+                        <?php if (!empty($cat['photo'] ?? null)): ?>
+                            <img src="<?= base_url('images/'.$cat['photo'].'.jpg') ?>" alt="<?= $cat['name'] ?>">
+                        <?php else: ?>
+                            <div class="placeholder">🐱</div>
+                        <?php endif; ?>
+                    </div>
 
                     <div class="cat-info">
                         <h3><?= $cat['name'] ?></h3>
                         <p class="breed"><?= $cat['breed'] ?? 'Neznámé plemeno' ?></p>
                         <p class="details">
                             <span><?= $cat['age'] ?> let</span> • 
-                            <span><?= $cat['gender'] === 'male' ? 'Samec' : 'Samice' ?></span>
+                            <span><?= $cat['gender'] === 'male' ? 'Kluk' : 'Holka' ?></span>
                         </p>
 
                         <?php if ($cat['description']): ?>
