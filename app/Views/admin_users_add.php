@@ -3,66 +3,63 @@
 
 <?= $this->section('content') ?>
 <div class="form-section">
-    <h1>✏️ Editovat kočku</h1>
+    <h1>👤 Přidat nového uživatele</h1>
 
     <?php if (!empty($errors ?? [])): ?>
         <div class="alert alert-error show" style="margin-bottom: 2rem;">
             <strong>Chyby ve formuláři:</strong>
             <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                <?php foreach ($errors as $error): ?>
+                <?php foreach ($errors ?? [] as $error): ?>
                     <li><?= $error ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
     <?php endif; ?>
 
-    <form method="POST" class="cat-form">
+    <form method="POST" class="user-form">
         <div class="form-group">
-            <label for="name">Jméno kočky *</label>
-            <input type="text" id="name" name="name" value="<?= $cat['name'] ?? '' ?>" required>
+            <label for="name">Jméno/Organizace *</label>
+            <input type="text" id="name" name="name" value="<?= old('name') ?>" required>
+            <small>Minimálně 3 znaky</small>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" value="<?= old('email') ?>" required>
+            <small>Musí být jedinečný a platný</small>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Telefon *</label>
+            <input type="tel" id="phone" name="phone" value="<?= old('phone') ?>" required>
+            <small>Např. +420 123 456 789</small>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label for="breed">Plemeno *</label>
-                <input type="text" id="breed" name="breed" value="<?= $cat['breed'] ?? '' ?>" required>
-            </div>
-
-            <div class="form-group">
-                <label for="age">Věk (roky) *</label>
-                <input type="number" id="age" name="age" value="<?= $cat['age'] ?? '' ?>" min="0" max="50" required>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="gender">Pohlaví *</label>
-                <select id="gender" name="gender" required>
-                    <option value="male" <?= ($cat['gender'] ?? '') === 'male' ? 'selected' : '' ?>>♂️ Samec</option>
-                    <option value="female" <?= ($cat['gender'] ?? '') === 'female' ? 'selected' : '' ?>>♀️ Samice</option>
+                <label for="type">Typ uživatele *</label>
+                <select id="type" name="type" required>
+                    <option value="">-- Vyberte --</option>
+                    <option value="individual" <?= old('type') === 'individual' ? 'selected' : '' ?>>👤 Jednotlivec</option>
+                    <option value="organization" <?= old('type') === 'organization' ? 'selected' : '' ?>>🏢 Organizace</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="user_id">Majitel/Organizace *</label>
-                <select id="user_id" name="user_id" required>
-                    <?php foreach ($users ?? [] as $user): ?>
-                        <option value="<?= $user['id'] ?>" <?= ($cat['user_id'] ?? '') == $user['id'] ? 'selected' : '' ?>>
-                            <?= $user['name'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <label for="city">Město *</label>
+                <input type="text" id="city" name="city" value="<?= old('city') ?>" required>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="description">Popis kočky</label>
-            <textarea id="description" name="description" rows="6"><?= $cat['description'] ?? '' ?></textarea>
+            <label for="notes">Poznámky</label>
+            <textarea id="notes" name="notes" rows="4"><?= old('notes') ?></textarea>
+            <small>Volné poznámky o uživateli</small>
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary btn-large">✓ Uložit změny</button>
-            <a href="/manage" class="btn btn-secondary btn-large">← Zpět</a>
+            <button type="submit" class="btn btn-primary btn-large">✓ Přidat uživatele</button>
+            <a href="/admin/users" class="btn btn-secondary btn-large">← Zpět</a>
         </div>
     </form>
 </div>
@@ -83,7 +80,7 @@
         font-size: 2rem;
     }
 
-    .cat-form {
+    .user-form {
         display: flex;
         flex-direction: column;
     }
@@ -107,7 +104,8 @@
     }
 
     input[type="text"],
-    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
     textarea,
     select {
         padding: 0.7rem;
@@ -119,7 +117,8 @@
     }
 
     input[type="text"]:focus,
-    input[type="number"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
     textarea:focus,
     select:focus {
         outline: none;
@@ -129,7 +128,13 @@
 
     textarea {
         resize: vertical;
-        min-height: 150px;
+        min-height: 100px;
+    }
+
+    small {
+        font-size: 0.85rem;
+        color: #999;
+        margin-top: 0.3rem;
     }
 
     .form-actions {
@@ -139,6 +144,7 @@
     }
 
     .btn {
+        display: inline-block;
         padding: 0.8rem 1.5rem;
         border-radius: 6px;
         text-decoration: none;

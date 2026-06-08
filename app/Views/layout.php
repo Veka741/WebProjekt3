@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -13,15 +14,19 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
+            min-height: 100vh;
         }
 
         header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .container {
@@ -34,47 +39,59 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         nav ul {
             list-style: none;
             display: flex;
             gap: 2rem;
+            flex-wrap: wrap;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            transition: opacity 0.3s;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
         }
 
         nav a:hover {
-            opacity: 0.8;
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
         }
 
         main {
             min-height: calc(100vh - 200px);
-            padding: 2rem 0;
+            padding: 3rem 0;
         }
 
         footer {
-            background-color: #333;
+            background-color: #2c3e50;
             color: white;
             text-align: center;
             padding: 2rem 0;
             margin-top: 3rem;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
         }
 
         .alert {
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             margin: 1rem 0;
-            border-radius: 5px;
+            border-radius: 8px;
             display: none;
+            border-left: 4px solid;
+            animation: slideIn 0.3s ease-out;
         }
 
         .alert.show {
@@ -84,13 +101,41 @@
         .alert-success {
             background-color: #d4edda;
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border-left-color: #28a745;
         }
 
         .alert-error {
             background-color: #f8d7da;
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border-left-color: #dc3545;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
@@ -98,17 +143,13 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">🐱 Portál adopce koček</div>
+                <div class="logo">🐱 Adopce Koček</div>
                 <ul>
-                    <li>
-                        <?= anchor('/', 'O nás', 'nav-link'); ?>
-                    </li>
-                    <li>
-                        <?= anchor('gallery', 'Galerie', 'nav-link'); ?>
-                    </li>
-                    <li>
-                        <?= anchor('manage', 'Správa', 'nav-link'); ?>
-                    </li>
+                    <li><a href="/">🏠 Domů</a></li>
+                    <li><a href="/gallery">🖼️ Galerie</a></li>
+                    <li><a href="/success">💚 Úspěšné adopce</a></li>
+                    <li><a href="/manage">⚙️ Správa koček</a></li>
+                    <li><a href="/admin/users">👥 Uživatelé</a></li>
                 </ul>
             </nav>
         </div>
@@ -134,7 +175,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena.</p>
+            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena. 💚</p>
         </div>
     </footer>
 </body>

@@ -2,42 +2,39 @@
 
 <?= $this->section('content') ?>
 <div class="gallery-section">
-    <h1>🐱 Galerie koček</h1>
+    <h1>🐱 Galerie dostupných koček</h1>
     
     <?php if (empty($cats)): ?>
-        <div style="background-color: #f0f0f0; padding: 2rem; border-radius: 8px; text-align: center; margin-top: 2rem;">
-            <p style="font-size: 1.1rem; color: #666;">Zatím nejsou k dispozici žádné kočky.</p>
-            <a href="/manage" style="color: #667eea; text-decoration: none;">→ Přidat první kočku</a>
+        <div style="background-color: white; padding: 3rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <p style="font-size: 1.3rem; color: #667eea; margin-bottom: 1.5rem;">Zatím nejsou dostupné žádné kočky.</p>
         </div>
     <?php else: ?>
         <div class="cats-grid">
             <?php foreach ($cats as $cat): ?>
                 <div class="cat-card">
-                    <?php if ($cat['photo']): ?>
-                        <div class="cat-photo">
+                    <div class="cat-photo">
+                        <?php if ($cat['photo']): ?>
                             <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
-                        </div>
-                    <?php else: ?>
-                        <div class="cat-photo placeholder">
-                            <span>🐱</span>
-                        </div>
-                    <?php endif; ?>
-                    
+                        <?php else: ?>
+                            <div class="placeholder">🐱</div>
+                        <?php endif; ?>
+                    </div>
+
                     <div class="cat-info">
                         <h3><?= $cat['name'] ?></h3>
-                        <p><strong>Plemeno:</strong> <?= $cat['breed'] ?></p>
-                        <p><strong>Věk:</strong> <?= $cat['age'] ?> let</p>
-                        <p><strong>Typ uživatele:</strong> <?= ucfirst($cat['user_type']) ?></p>
-                        <p><strong>Kontakt:</strong> <?= $cat['user_name'] ?></p>
-                        
+                        <p class="breed"><?= $cat['breed'] ?></p>
+                        <p class="details">
+                            <span><?= $cat['age'] ?> let</span> • 
+                            <span><?= $cat['gender'] === 'male' ? '♂️ Samec' : '♀️ Samice' ?></span>
+                        </p>
+
                         <?php if ($cat['description']): ?>
-                            <div class="description">
-                                <p><strong>Popis:</strong></p>
-                                <p><?= $cat['description'] ?></p>
-                            </div>
+                            <p class="description"><?= substr($cat['description'], 0, 150) ?>...</p>
                         <?php endif; ?>
-                        
-                        <small style="color: #999;">Přidáno: <?= date('d. m. Y H:i', strtotime($cat['created_at'])) ?></small>
+
+                        <div class="card-footer">
+                            <span class="contact">Kontakt: <?= $cat['user_id'] ?></span>
+                        </div>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -50,6 +47,7 @@
         color: #667eea;
         margin-bottom: 2rem;
         font-size: 2rem;
+        text-align: center;
     }
 
     .cats-grid {
@@ -64,22 +62,19 @@
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
+        transition: all 0.3s;
     }
 
     .cat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
 
     .cat-photo {
         width: 100%;
         height: 250px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background-color: #f0f0f0;
     }
 
     .cat-photo img {
@@ -88,8 +83,14 @@
         object-fit: cover;
     }
 
-    .cat-photo.placeholder {
+    .placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
 
     .cat-info {
@@ -102,17 +103,41 @@
         font-size: 1.3rem;
     }
 
-    .cat-info p {
-        margin: 0.5rem 0;
-        color: #555;
+    .breed {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .details {
+        font-size: 0.9rem;
+        color: #999;
+        margin-bottom: 1rem;
     }
 
     .description {
-        background-color: #f9f9f9;
-        padding: 1rem;
-        border-radius: 5px;
+        font-size: 0.9rem;
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+
+    .card-footer {
+        border-top: 1px solid #eee;
+        padding-top: 1rem;
         margin-top: 1rem;
-        font-size: 0.95rem;
+    }
+
+    .contact {
+        font-size: 0.85rem;
+        color: #999;
+    }
+
+    @media (max-width: 768px) {
+        .cats-grid {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 <?= $this->endSection() ?>
