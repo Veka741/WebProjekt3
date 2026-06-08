@@ -154,12 +154,25 @@
                     <li>
                         <?= anchor('success', 'Úspěšné adopce', 'nav-link'); ?>
                     </li>
+                    <?php
+                    // Check if user is logged in via Ion Auth session
+                    $isLoggedIn = (bool) session('user_id');
+                    ?>
+                    <?php if ($isLoggedIn): ?>
                     <li>
                         <?= anchor('manage', 'Správa', 'nav-link'); ?>
                     </li>
                     <li>
-                        <?= anchor('admin_users', 'Uživatelé', 'nav-link'); ?>
+                        <?= anchor('admin/users', 'Uživatelé', 'nav-link'); ?>
                     </li>
+                    <li>
+                        <?= anchor('auth/logout', '🚪 Odhlásit', 'nav-link'); ?>
+                    </li>
+                    <?php else: ?>
+                    <li>
+                        <?= anchor('auth/login', '🔑 Přihlásit', 'nav-link'); ?>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </nav>
         </div>

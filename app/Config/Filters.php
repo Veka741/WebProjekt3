@@ -4,6 +4,7 @@ namespace Config;
 
 use CodeIgniter\Config\Filters as BaseFilters;
 use CodeIgniter\Filters\Cors;
+use App\Filters\AuthFilter;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
 use CodeIgniter\Filters\ForceHTTPS;
@@ -34,6 +35,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'auth'          => AuthFilter::class,  // Ion Auth login guard
     ];
 
     /**
@@ -106,5 +108,15 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        // Protect manage/* and admin/users/* – redirect to /auth/login if not signed in
+        'auth' => [
+            'before' => [
+                'manage',
+                'manage/*',
+                'admin/users',
+                'admin/users/*',
+            ],
+        ],
+    ];
 }
