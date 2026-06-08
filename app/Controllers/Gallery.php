@@ -16,15 +16,18 @@ class Gallery extends BaseController
     public function index()
     {
         $cats = $this->catModel
-            ->where('status', 'available')
-            ->where('deleted_at', null)
-            ->orderBy('created_at', 'DESC')
+            ->select('cats.*, photos.image_path AS photo')
+            ->join('photos', 'photos.cat_id = cats.id', 'left')
+            ->where('cats.status', 'available')
+            ->where('cats.deleted_at', null) 
+            ->orderBy('cats.created_at', 'DESC')
             ->findAll();
 
         $data = [
             'title' => 'Galerie koček - Portál adopce',
             'cats' => $cats
         ];
+
         return view('gallery', $data);
     }
 }

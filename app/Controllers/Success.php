@@ -16,9 +16,11 @@ class Success extends BaseController
     public function index()
     {
         $cats = $this->catModel
+            ->select('cats.*, photos.image_path AS photo')
+            ->join('photos', 'photos.cat_id = cats.id', 'left')
             ->where('status', 'adopted')
-            ->where('deleted_at', null)
-            ->orderBy('updated_at', 'DESC')
+            ->where('cats.deleted_at', null)
+            ->orderBy('cats.updated_at', 'DESC')
             ->findAll();
 
         $data = [

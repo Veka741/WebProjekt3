@@ -14,7 +14,7 @@
                 <div class="cat-card">
                 <div class="cat-photo">
                     <?php if (!empty($cat['photo'] ?? null)): ?>
-                        <img src="<?= base_url('uploads/' . $cat['photo']) ?>" alt="<?= $cat['name'] ?>">
+                        <img src="<?= base_url('images/'.$cat['photo'].'.jpg') ?>" alt="<?= $cat['name'] ?>">
                     <?php else: ?>
                         <div class="placeholder">🐱</div>
                     <?php endif; ?>
