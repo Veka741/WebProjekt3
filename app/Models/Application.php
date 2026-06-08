@@ -9,38 +9,36 @@ class Application extends Model
     protected $table            = 'applications';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'object';
+    protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["id", "user_id", "cat_id", "message", "status", "created_at"];
+    protected $allowedFields    = ['user_id', 'cat_id', 'message', 'status'];
 
-    protected bool $allowEmptyInserts = false;
-    protected bool $updateOnlyChanged = true;
-
-    protected array $casts = [];
-    protected array $castHandlers = [];
-
-    // Dates
-    protected $useTimestamps = false;
+    protected $useTimestamps = true;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-    protected $deletedField  = 'deleted_at';
 
-    // Validation
     protected $validationRules      = [];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
-    // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
-    protected $afterUpdate    = [];
-    protected $beforeFind     = [];
-    protected $afterFind      = [];
-    protected $beforeDelete   = [];
-    protected $afterDelete    = [];
+
+    public function getApplicationsForUser($userId)
+    {
+        return $this->where('user_id', $userId)
+            ->join('cats', 'cats.id = applications.cat_id', 'left')
+            ->select('applications.*, cats.name as cat_name')
+            ->findAll();
+    }
+
+    public function getApplicationsForCat($catId)
+    {
+        return $this->where('cat_id', $catId)
+            ->join('users', 'users.id = applications.user_id', 'left')
+            ->select('applications.*, users.first_name, users.last_name, users.email')
+            ->findAll();
+    }
 }

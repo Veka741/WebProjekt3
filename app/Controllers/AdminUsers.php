@@ -15,9 +15,14 @@ class AdminUsers extends BaseController
 
     public function index()
     {
-        $activeUsers = $this->userModel->where('deleted_at', null)->findAll();
-        $deletedUsers = $this->userModel->where('deleted_at !=', null)->findAll();
-        
+        $activeUsers = $this->userModel
+            ->where('deleted_at', null)
+            ->findAll();
+
+        $deletedUsers = $this->userModel
+            ->onlyDeleted()
+            ->findAll();
+
         $data = [
             'title' => 'Správa uživatelů - Portál adopce',
             'activeUsers' => $activeUsers,
@@ -30,34 +35,39 @@ class AdminUsers extends BaseController
     {
         if ($this->request->getMethod() === 'post') {
             $rules = [
-                'name' => 'required|min_length[3]|max_length[100]',
+                'first_name' => 'required|min_length[2]|max_length[100]',
+                'last_name' => 'required|min_length[2]|max_length[100]',
+                'username' => 'required|min_length[3]|max_length[100]|is_unique[users.username]',
                 'email' => 'required|valid_email|is_unique[users.email]',
-                'phone' => 'required|min_length[9]|max_length[20]',
-                'type' => 'required|in_list[individual,organization]',
-                'city' => 'required|min_length[2]|max_length[100]',
+                'password' => 'required|min_length[6]',
+                'role' => 'required|in_list[user,volunteer,admin]',
             ];
 
             if (!$this->validate($rules)) {
-                return view('admin_users_add', ['errors' => $this->validator->getErrors()]);
+                return view('admin_users_add', [
+                    'title' => 'Přidat uživatele',
+                    'errors' => $this->validator->getErrors()
+                ]);
             }
 
             $data = [
-                'name' => $this->request->getPost('name'),
+                'first_name' => $this->request->getPost('first_name'),
+                'last_name' => $this->request->getPost('last_name'),
+                'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
-                'phone' => $this->request->getPost('phone'),
-                'type' => $this->request->getPost('type'),
-                'city' => $this->request->getPost('city'),
-                'notes' => $this->request->getPost('notes'),
+                'password' => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
+                'role' => $this->request->getPost('role'),
             ];
 
             if ($this->userModel->insert($data)) {
-                session()->setFlashdata('success', 'Uživatel byl úspěšně přidán!');
+                session()->setFlashdata('success', '✓ Uživatel byl úspěšně přidán!');
                 return redirect()->to('/admin/users');
             } else {
-                session()->setFlashdata('error', 'Chyba při přidávání uživatele!');
+                session()->setFlashdata('error', '✗ Chyba při přidávání uživatele!');
             }
         }
-        return view('admin_users_add');
+
+        return view('admin_users_add', ['title' => 'Přidat uživatele', 'errors' => []]);
     }
 
     public function edit($id)
@@ -69,80 +79,71 @@ class AdminUsers extends BaseController
 
         if ($this->request->getMethod() === 'post') {
             $rules = [
-                'name' => 'required|min_length[3]|max_length[100]',
+                'first_name' => 'required|min_length[2]|max_length[100]',
+                'last_name' => 'required|min_length[2]|max_length[100]',
                 'email' => 'required|valid_email',
-                'phone' => 'required|min_length[9]|max_length[20]',
-                'type' => 'required|in_list[individual,organization]',
-                'city' => 'required|min_length[2]|max_length[100]',
+                'role' => 'required|in_list[user,volunteer,admin]',
             ];
 
             if (!$this->validate($rules)) {
-                $data = [
+                return view('admin_users_edit', [
                     'title' => 'Editace uživatele',
                     'user' => $user,
                     'errors' => $this->validator->getErrors()
-                ];
-                return view('admin_users_edit', $data);
+                ]);
             }
 
             $updateData = [
-                'name' => $this->request->getPost('name'),
+                'first_name' => $this->request->getPost('first_name'),
+                'last_name' => $this->request->getPost('last_name'),
                 'email' => $this->request->getPost('email'),
-                'phone' => $this->request->getPost('phone'),
-                'type' => $this->request->getPost('type'),
-                'city' => $this->request->getPost('city'),
-                'notes' => $this->request->getPost('notes'),
+                'role' => $this->request->getPost('role'),
             ];
 
             if ($this->userModel->update($id, $updateData)) {
-                session()->setFlashdata('success', 'Uživatel byl úspěšně aktualizován!');
+                session()->setFlashdata('success', '✓ Uživatel byl aktualizován!');
                 return redirect()->to('/admin/users');
-            } else {
-                session()->setFlashdata('error', 'Chyba při aktualizaci uživatele!');
-                $data = [
-                    'title' => 'Editace uživatele',
-                    'user' => $user,
-                    'errors' => []
-                ];
-                return view('admin_users_edit', $data);
             }
         }
 
-        $data = [
+        return view('admin_users_edit', [
             'title' => 'Editace uživatele',
             'user' => $user,
             'errors' => []
-        ];
-        return view('admin_users_edit', $data);
+        ]);
     }
 
     public function softDelete($id)
     {
         $user = $this->userModel->find($id);
         if (!$user) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Uživatel nenalezen');
+            session()->setFlashdata('error', 'Uživatel nenalezen');
+            return redirect()->to('/admin/users');
         }
 
-        if ($this->userModel->update($id, ['deleted_at' => date('Y-m-d H:i:s')])) {
-            session()->setFlashdata('success', 'Uživatel byl úspěšně archivován!');
+        if ($this->userModel->delete($id)) {
+            session()->setFlashdata('success', '✓ Uživatel byl archivován!');
         } else {
-            session()->setFlashdata('error', 'Chyba při archivaci uživatele!');
+            session()->setFlashdata('error', '✗ Chyba při archivaci');
         }
+
         return redirect()->to('/admin/users');
     }
 
     public function restore($id)
     {
-        $user = $this->userModel->find($id);
+        $user = $this->userModel->onlyDeleted()->find($id);
         if (!$user) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Uživatel nenalezen');
+            session()->setFlashdata('error', 'Uživatel nenalezen');
+            return redirect()->to('/admin/users');
         }
 
         if ($this->userModel->update($id, ['deleted_at' => null])) {
-            session()->setFlashdata('success', 'Uživatel byl úspěšně obnoven!');
+            session()->setFlashdata('success', '✓ Uživatel byl obnoven!');
         } else {
-            session()->setFlashdata('error', 'Chyba při obnovení uživatele!');
+            session()->setFlashdata('error', '✗ Chyba při obnovení');
         }
+
         return redirect()->to('/admin/users');
     }
 }

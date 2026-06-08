@@ -1,4 +1,3 @@
-
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
@@ -9,18 +8,34 @@
         <div class="alert alert-error show" style="margin-bottom: 2rem;">
             <strong>Chyby ve formuláři:</strong>
             <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                <?php foreach ($errors ?? [] as $error): ?>
-                    <li><?= $error ?></li>
+                <?php foreach ($errors ?? [] as $field => $error): ?>
+                    <li><strong><?= ucfirst($field) ?>:</strong> <?= $error ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
     <?php endif; ?>
 
     <form method="POST" class="user-form">
+        <?= csrf_field() ?>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="first_name">Jméno *</label>
+                <input type="text" id="first_name" name="first_name" value="<?= old('first_name') ?>" required>
+                <small>Minimálně 2 znaky</small>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Příjmení *</label>
+                <input type="text" id="last_name" name="last_name" value="<?= old('last_name') ?>" required>
+                <small>Minimálně 2 znaky</small>
+            </div>
+        </div>
+
         <div class="form-group">
-            <label for="name">Jméno/Organizace *</label>
-            <input type="text" id="name" name="name" value="<?= old('name') ?>" required>
-            <small>Minimálně 3 znaky</small>
+            <label for="username">Uživatelské jméno *</label>
+            <input type="text" id="username" name="username" value="<?= old('username') ?>" required>
+            <small>Minimálně 3 znaky, bez mezer</small>
         </div>
 
         <div class="form-group">
@@ -30,31 +45,19 @@
         </div>
 
         <div class="form-group">
-            <label for="phone">Telefon *</label>
-            <input type="tel" id="phone" name="phone" value="<?= old('phone') ?>" required>
-            <small>Např. +420 123 456 789</small>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="type">Typ uživatele *</label>
-                <select id="type" name="type" required>
-                    <option value="">-- Vyberte --</option>
-                    <option value="individual" <?= old('type') === 'individual' ? 'selected' : '' ?>>👤 Jednotlivec</option>
-                    <option value="organization" <?= old('type') === 'organization' ? 'selected' : '' ?>>🏢 Organizace</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="city">Město *</label>
-                <input type="text" id="city" name="city" value="<?= old('city') ?>" required>
-            </div>
+            <label for="password">Heslo *</label>
+            <input type="password" id="password" name="password" required>
+            <small>Minimálně 6 znaků</small>
         </div>
 
         <div class="form-group">
-            <label for="notes">Poznámky</label>
-            <textarea id="notes" name="notes" rows="4"><?= old('notes') ?></textarea>
-            <small>Volné poznámky o uživateli</small>
+            <label for="role">Role *</label>
+            <select id="role" name="role" required>
+                <option value="">-- Vyberte roli --</option>
+                <option value="user" <?= old('role') === 'user' ? 'selected' : '' ?>>👤 Uživatel</option>
+                <option value="volunteer" <?= old('role') === 'volunteer' ? 'selected' : '' ?>>🤝 Dobrovolník</option>
+                <option value="admin" <?= old('role') === 'admin' ? 'selected' : '' ?>>👨‍💼 Administrátor</option>
+            </select>
         </div>
 
         <div class="form-actions">
@@ -105,7 +108,7 @@
 
     input[type="text"],
     input[type="email"],
-    input[type="tel"],
+    input[type="password"],
     textarea,
     select {
         padding: 0.7rem;
@@ -116,19 +119,12 @@
         transition: border-color 0.2s;
     }
 
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="tel"]:focus,
+    input:focus,
     textarea:focus,
     select:focus {
         outline: none;
         border-color: #667eea;
         box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
-    }
-
-    textarea {
-        resize: vertical;
-        min-height: 100px;
     }
 
     small {
@@ -177,6 +173,14 @@
 
     .btn-secondary:hover {
         background-color: #777;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border-left: 4px solid #dc3545;
+        padding: 1rem;
+        border-radius: 5px;
     }
 
     @media (max-width: 600px) {
