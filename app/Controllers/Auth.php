@@ -29,7 +29,7 @@ class Auth extends BaseController
     {
         // Už přihlášený uživatel → rovnou do administrace
         if (session('logged_in')) {
-            return redirect()->to('/admin/users');
+            return redirect()->to('/');
         }
 
         if ($this->request->getMethod() === 'POST') {
@@ -50,7 +50,7 @@ class Auth extends BaseController
                         'logged_in' => true,
                     ]);
                     session()->setFlashdata('success', 'Byli jste úspěšně přihlášeni.');
-                    return redirect()->to('/admin/users');
+                    return redirect()->to('/');
                 }
 
                 session()->setFlashdata('error', 'Nesprávný e-mail nebo heslo.');
