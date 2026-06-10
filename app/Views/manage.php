@@ -2,11 +2,18 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
+<?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa koček' => null]) ?>
 <div class="manage-section">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <h1>Správa inzerátů</h1>
         <a href="/manage/add" class="btn btn-primary">+ Přidat novou kočku</a>
     </div>
+
+    <?php // Agregace (COUNT + GROUP BY) – přehled počtu koček podle stavu ?>
+    <p style="margin-bottom: 1.5rem; color: #555;">
+        Dostupných: <strong><?= (int) ($counts['available'] ?? 0) ?></strong> &nbsp;|&nbsp;
+        Adoptovaných: <strong><?= (int) ($counts['adopted'] ?? 0) ?></strong>
+    </p>
 
     <?php if (empty($cats)): ?>
         <div style="background-color: white; padding: 3rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
@@ -58,13 +65,41 @@
                         <?php if ($cat['status'] !== 'adopted'): ?>
                             <a href="/manage/adopt/<?= $cat['id'] ?>" class="btn btn-small btn-adopt" onclick="return confirm('Označit tuto kočku jako adoptovanou?');">Adoptovaná</a>
                         <?php endif; ?>
-                        <a href="/manage/soft-delete/<?= $cat['id'] ?>" class="btn btn-small btn-archive" onclick="return confirm('Archivovat tuto kočku? (Lze obnovit)'); ">Archivovat</a>
+                        <button type="button" class="btn btn-small btn-archive"
+                                onclick="openDeleteModal('<?= site_url('manage/soft-delete/'.$cat['id']) ?>', '<?= esc($cat['name'], 'js') ?>')">Archivovat</button>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </div>
+
+<!-- Modální okno pro potvrzení archivace (mazání) -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+        <h3>Archivovat kočku?</h3>
+        <p>Opravdu chcete archivovat kočku <strong id="deleteModalName"></strong>? Záznam zůstane uložen (softdelete) a lze jej obnovit.</p>
+        <div class="modal-actions">
+            <button type="button" class="btn modal-btn-cancel" onclick="closeDeleteModal()">Zrušit</button>
+            <a href="#" id="deleteModalConfirm" class="btn modal-btn-confirm">Archivovat</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openDeleteModal(url, name) {
+        document.getElementById('deleteModalName').textContent = name;
+        document.getElementById('deleteModalConfirm').setAttribute('href', url);
+        document.getElementById('deleteModal').classList.add('open');
+    }
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.remove('open');
+    }
+    // Zavření kliknutím mimo okno
+    document.getElementById('deleteModal').addEventListener('click', function (e) {
+        if (e.target === this) closeDeleteModal();
+    });
+</script>
 
 <style>
     .manage-section h1 {

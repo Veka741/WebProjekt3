@@ -121,6 +121,62 @@
             }
         }
 
+        /* ── Drobečková navigace (breadcrumbs) ── */
+        .breadcrumb {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            background-color: rgba(102, 126, 234, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: "/";
+            padding-right: 0.4rem;
+            color: #999;
+        }
+        .breadcrumb-item a { color: #667eea; text-decoration: none; }
+        .breadcrumb-item a:hover { text-decoration: underline; }
+        .breadcrumb-item.active { color: #666; }
+
+        /* ── Modální okno (potvrzení mazání) ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 420px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideIn 0.2s ease-out;
+        }
+        .modal-box h3 { color: #dc3545; margin-bottom: 1rem; }
+        .modal-box p { margin-bottom: 1.5rem; color: #444; }
+        .modal-actions { display: flex; gap: 1rem; justify-content: flex-end; }
+        .modal-actions .btn {
+            padding: 0.6rem 1.3rem;
+            border-radius: 6px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+        .modal-btn-cancel { background: #999; }
+        .modal-btn-confirm { background: #dc3545; }
+
         @media (max-width: 768px) {
             nav {
                 flex-direction: column;

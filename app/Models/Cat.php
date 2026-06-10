@@ -33,6 +33,106 @@ class Cat extends Model
 
     protected $allowCallbacks = true;
 
+    /**
+     * Vrátí seznam koček i s navázanou fotkou a plemeny (přes JOINy).
+     *
+     * Co dělá:
+     *   Sestaví jeden dotaz, který ke každé kočce připojí (LEFT JOIN) první
+     *   fotku z tabulky `photos` a všechna plemena z `cat_breeds`/`breeds`
+     *   (spojená do jednoho řetězce funkcí GROUP_CONCAT). Smazané (soft-deleted)
+     *   kočky jsou vynechány. Tato metoda centralizuje dotaz, který se dříve
+     *   opakoval ve více controllerech.
+     *
+     * @param string|null $status Filtr na sloupec status (např. 'available',
+     *                            'adopted'); null = bez filtru.
+     *
+     * @return array<int,array<string,mixed>> Pole koček; každá obsahuje navíc
+     *                                        klíče 'photo' a 'breed'.
+     */
+    public function getCatsWithDetails(?string $status = null): array
+    {
+        $builder = $this
+            ->select('cats.*, ANY_VALUE(photos.image_path) AS photo, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
+            ->join('photos', 'photos.cat_id = cats.id', 'left')
+            ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
+            ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
+            ->where('cats.deleted_at', null)
+            ->groupBy('cats.id')
+            ->orderBy('cats.created_at', 'DESC');
+
+        if ($status !== null) {
+            $builder->where('cats.status', $status);
+        }
+
+        return $builder->findAll();
+    }
+
+    /**
+     * Spočítá počet koček v jednotlivých stavech pomocí agregační funkce COUNT.
+     *
+     * Co dělá:
+     *   Provede dotaz "SELECT status, COUNT(*) ... GROUP BY status" nad
+     *   nesmazanými kočkami a vrátí přehled, kolik koček je v každém stavu.
+     *
+     * @return array<string,int> Asociativní pole status => počet
+     *                           (např. ['available' => 5, 'adopted' => 2]).
+     */
+    public function countByStatus(): array
+    {
+        $rows = $this
+            ->select('status, COUNT(*) AS total')
+            ->where('deleted_at', null)
+            ->groupBy('status')
+            ->findAll();
+
+        $result = [];
+        foreach ($rows as $row) {
+            $result[$row['status']] = (int) $row['total'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Vrátí ID plemene navázaného na danou kočku (z vazební tabulky cat_breeds).
+     *
+     * @param int $catId ID kočky.
+     *
+     * @return int|null ID plemene, nebo null pokud kočka žádné plemeno nemá.
+     */
+    public function getBreedId(int $catId): ?int
+    {
+        $row = $this->db->table('cat_breeds')
+            ->select('breed_id')
+            ->where('cat_id', $catId)
+            ->get()
+            ->getRowArray();
+
+        return $row ? (int) $row['breed_id'] : null;
+    }
+
+    /**
+     * Nastaví (nahradí) plemeno kočky ve vazební tabulce cat_breeds.
+     *
+     * Co dělá:
+     *   Smaže případné stávající vazby kočky na plemena a vloží jednu novou
+     *   vazbu cat_id → breed_id. Pokud je $breedId prázdné, vazby pouze odstraní.
+     *
+     * @param int      $catId   ID kočky.
+     * @param int|null $breedId ID vybraného plemene (null = bez plemene).
+     *
+     * @return void
+     */
+    public function setBreed(int $catId, ?int $breedId): void
+    {
+        $table = $this->db->table('cat_breeds');
+        $table->where('cat_id', $catId)->delete();
+
+        if ($breedId) {
+            $table->insert(['cat_id' => $catId, 'breed_id' => $breedId]);
+        }
+    }
+
     public function getWithBreeds($id)
     {
         return $this->select('cats.*')

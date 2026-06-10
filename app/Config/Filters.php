@@ -116,6 +116,8 @@ class Filters extends BaseFilters
                 'manage/*',
                 'admin/users',
                 'admin/users/*',
+                'gallery/add',
+                'gallery/delete/*',
             ],
         ],
     ];
