@@ -50,6 +50,7 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                             </div>
                         <?php endif; ?>
 
+                        <p class="owner">✉ <?= esc($photo['owner_email'] ?? 'Neznámý inzerent') ?></p>
                         <p class="date">Přidáno: <?= esc($photo['created_at'] ?? '') ?></p>
                         <?php if (session('user_id')): ?>
                             <button type="button" class="btn-delete"
@@ -131,6 +132,7 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
         border-left: 3px solid #667eea;
     }
     .photo-info .cat-description p { color: #555; line-height: 1.5; font-size: 0.9rem; }
+    .photo-info .owner { color: #667eea; font-size: 0.85rem; word-break: break-all; }
     .photo-info .date { color: #999; font-size: 0.85rem; }
     .btn-delete {
         margin-top: auto; background: #dc3545; color: #fff; border: none; cursor: pointer;

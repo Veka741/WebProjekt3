@@ -32,10 +32,11 @@ class Gallery extends BaseController
         $perPage = config('Gallery')->perPage;
 
         $photos = $this->photoModel
-            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
+            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, ANY_VALUE(users.email) AS owner_email, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
             ->join('cats', 'cats.id = photos.cat_id', 'left')
             ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
             ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
+            ->join('users', 'users.id = cats.user_id', 'left')
             ->where('photos.deleted_at', null)
             ->groupBy('photos.id')
             ->orderBy('photos.created_at', 'DESC')
@@ -69,10 +70,11 @@ class Gallery extends BaseController
         $perPage = config('Gallery')->perPage;
 
         $photos = $this->photoModel
-            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
+            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, ANY_VALUE(users.email) AS owner_email, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
             ->join('cats', 'cats.id = photos.cat_id', 'left')
             ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
             ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
+            ->join('users', 'users.id = cats.user_id', 'left')
             ->where('photos.cat_id', $catId)
             ->where('photos.deleted_at', null)
             ->groupBy('photos.id')

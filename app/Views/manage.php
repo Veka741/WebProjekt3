@@ -53,10 +53,6 @@
                             <span class="label">Pohlaví:</span>
                             <span><?= ucfirst($cat['gender']) ?></span>
                         </div>
-                        <div class="info-row">
-                            <span class="label">Inzerent:</span>
-                            <span><?= esc($cat['owner_email'] ?? 'Neznámý') ?></span>
-                        </div>
                         <?php if ($cat['description']): ?>
                             <div class="description-preview">
                                 <?= substr($cat['description'], 0, 100) ?>...
