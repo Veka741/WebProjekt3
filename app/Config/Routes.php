@@ -8,22 +8,21 @@ use CodeIgniter\Router\RouteCollection;
 
 // ── Veřejné stránky ──────────────────────────────────────────────────────────
 $routes->get('/',        'Home::index');
-$routes->get('/gallery', 'Gallery::index');
 $routes->get('/success', 'Success::index');
 
-// ── Autentizace (Ion Auth) ────────────────────────────────────────────────────
-// Login / Logout – handled by our App\Controllers\Auth which extends Ion Auth
-$routes->get( 'auth/login',  'Auth::login');
-$routes->post('auth/login',  'Auth::login');
-$routes->get( 'auth/logout', 'Auth::logout');
+// ── Galerie fotek (veřejný výpis; přidání a mazání jen pro přihlášené) ────────
+$routes->get('gallery',                   'Gallery::index');
+// Routa se DVĚMA parametry: ID kočky + číslo stránky stránkování
+$routes->get('gallery/cat/(:num)/(:num)', 'Gallery::byCat/$1/$2');
+$routes->get('gallery/add',               'Gallery::add');
+$routes->post('gallery/add',              'Gallery::add');
+$routes->get('gallery/delete/(:num)',     'Gallery::delete/$1');
 
-// Ion Auth optional extras (forgot/reset/change password)
-$routes->get( 'auth/forgot_password',          'Auth::forgot_password');
-$routes->post('auth/forgot_password',          'Auth::forgot_password');
-$routes->get( 'auth/reset_password/(:segment)', 'Auth::reset_password/$1');
-$routes->post('auth/reset_password/(:segment)', 'Auth::reset_password/$1');
-$routes->get( 'auth/change_password',          'Auth::change_password');
-$routes->post('auth/change_password',          'Auth::change_password');
+// ── Autentizace (vlastní přihlášení proti tabulce users) ─────────────────────
+$routes->get( 'auth/login',           'Auth::login');
+$routes->post('auth/login',           'Auth::login');
+$routes->get( 'auth/logout',          'Auth::logout');
+$routes->get( 'auth/forgot_password', 'Auth::forgot_password');
 
 // ── Správa koček (chráněno AuthFilter – viz app/Config/Filters.php) ──────────
 $routes->group('manage', function (RouteCollection $routes) {

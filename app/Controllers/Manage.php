@@ -3,176 +3,184 @@
 namespace App\Controllers;
 
 use App\Models\Cat;
-use App\Models\User;
-use App\Models\Photo;
 use App\Models\Breed;
-use App\Models\CatBreed;
+use App\Libraries\ImageUploader;
 
+/**
+ * Manage – správa inzerátů koček (CRUD).
+ *
+ * Veškerá těžká logika (sdílený JOIN dotaz, nahrávání obrázku, vazba na plemeno)
+ * je vyčleněna do modelu App\Models\Cat a knihovny App\Libraries\ImageUploader,
+ * aby controller zůstal malý a bez opakování kódu.
+ */
 class Manage extends BaseController
 {
-    protected $catModel;
-    protected $userModel;
-    protected $photoModel;
-    protected $breedModel;
-    protected $catBreedModel;
+    protected Cat $catModel;
+    protected Breed $breedModel;
 
     public function __construct()
     {
-        $this->catModel = new Cat();
-        $this->userModel = new User();
-        $this->photoModel = new Photo();
+        $this->catModel   = new Cat();
         $this->breedModel = new Breed();
-        $this->catBreedModel = new CatBreed();
     }
 
     /**
-     * Zobrazí seznam všech dostupných koček (bez smazaných)
+     * Zobrazí seznam všech dostupných koček (bez smazaných) i s fotkou a plemeny.
      */
     public function index()
     {
-        $cats = $this->catModel
-            ->select('cats.*, ANY_VALUE(photos.image_path) AS photo, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
-            ->join('photos', 'photos.cat_id = cats.id', 'left')
-            ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
-            ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
-            ->where('cats.deleted_at', null)
-            ->groupBy('cats.id')
-            ->orderBy('cats.created_at', 'DESC')
-            ->findAll();
-    
-        $data = [
-            'title' => 'Správa koček - Portál adopce',
-            'cats' => $cats
-        ];
-    
-        return view('manage', $data);
-    }
-
-    /**
-     * Přidá novou kočku
-     */
-    public function add()
-    {
-        if ($this->request->getMethod() === 'post') {
-            $rules = [
-                'name' => 'required|min_length[2]|max_length[255]',
-                'age' => 'required|numeric|greater_than_equal_to[0]|less_than_equal_to[50]',
-                'gender' => 'required|in_list[male,female]',
-                'description' => 'required|min_length[10]|max_length[1000]',
-            ];
-
-            if (!$this->validate($rules)) {
-                return view('manage_add', [
-                    'title' => 'Přidat novou kočku',
-                    'errors' => $this->validator->getErrors()
-                ]);
-            }
-
-            $data = [
-                'name' => $this->request->getPost('name'),
-                'age' => $this->request->getPost('age'),
-                'gender' => $this->request->getPost('gender'),
-                'description' => $this->request->getPost('description'),
-                'long_description' => $this->request->getPost('description'),
-                'status' => 'available',
-            ];
-
-            if ($this->catModel->insert($data)) {
-                session()->setFlashdata('success', '✓ Kočka byla úspěšně přidána!');
-                return redirect()->to('/manage');
-            } else {
-                session()->setFlashdata('error', '✗ Chyba při přidávání kočky!');
-            }
-        }
-
-        return view('manage_add', ['title' => 'Přidat novou kočku', 'errors' => []]);
-    }
-
-    /**
-     * Edituje existující kočku
-     */
-    public function edit($id)
-    {
-        $cat = $this->catModel->find($id);
-        if (!$cat) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Kočka nenalezena');
-        }
-
-        if ($this->request->getMethod() === 'post') {
-            $rules = [
-                'name' => 'required|min_length[2]|max_length[255]',
-                'age' => 'required|numeric|greater_than_equal_to[0]|less_than_equal_to[50]',
-                'gender' => 'required|in_list[male,female]',
-                'description' => 'required|min_length[10]|max_length[1000]',
-            ];
-
-            if (!$this->validate($rules)) {
-                return view('manage_edit', [
-                    'title' => 'Editace kočky',
-                    'cat' => $cat,
-                    'errors' => $this->validator->getErrors()
-                ]);
-            }
-
-            $updateData = [
-                'name' => $this->request->getPost('name'),
-                'age' => $this->request->getPost('age'),
-                'gender' => $this->request->getPost('gender'),
-                'description' => $this->request->getPost('description'),
-                'long_description' => $this->request->getPost('description'),
-            ];
-
-            if ($this->catModel->update($id, $updateData)) {
-                session()->setFlashdata('success', '✓ Kočka byla aktualizována!');
-                return redirect()->to('/manage');
-            }
-        }
-
-        return view('manage_edit', [
-            'title' => 'Editace kočky',
-            'cat' => $cat,
-            'errors' => []
+        return view('manage', [
+            'title'  => 'Správa koček - Portál adopce',
+            'cats'   => $this->catModel->getCatsWithDetails(),
+            'counts' => $this->catModel->countByStatus(),
         ]);
     }
 
     /**
-     * Softdelete - archivuje kočku
+     * Přidá novou kočku (včetně plemene z dropdownu a nahrané fotky).
+     */
+    public function add()
+    {
+        if ($this->request->getMethod() === 'POST') {
+            $rules = [
+                'name'             => 'required|min_length[2]|max_length[255]',
+                'breed_id'         => 'required|is_natural_no_zero',
+                'age'              => 'required|numeric|greater_than_equal_to[0]|less_than_equal_to[50]',
+                'gender'           => 'required|in_list[male,female]',
+                'long_description' => 'required|min_length[10]',
+                'photo'            => 'uploaded[photo]|is_image[photo]|max_size[photo,2048]',
+            ];
+
+            if (! $this->validate($rules)) {
+                return view('manage_add', [
+                    'title'  => 'Přidat novou kočku',
+                    'breeds' => $this->breedModel->orderBy('name')->findAll(),
+                    'errors' => $this->validator->getErrors(),
+                ]);
+            }
+
+            $longDescription = $this->request->getPost('long_description');
+
+            $catId = $this->catModel->insert([
+                'name'             => $this->request->getPost('name'),
+                'age'              => $this->request->getPost('age'),
+                'gender'           => $this->request->getPost('gender'),
+                'description'      => strip_tags($longDescription),
+                'long_description' => $longDescription,
+                'status'           => 'available',
+            ], true);
+
+            if ($catId) {
+                // Vazba na vybrané plemeno + uložení nahrané fotky
+                $this->catModel->setBreed((int) $catId, (int) $this->request->getPost('breed_id'));
+
+                $uploader = new ImageUploader();
+                if ($uploader->save($this->request->getFile('photo'), (int) $catId) === null) {
+                    session()->setFlashdata('error', 'Kočka uložena, ale fotku se nepodařilo nahrát: ' . $uploader->getError());
+                } else {
+                    session()->setFlashdata('success', 'Kočka byla úspěšně přidána!');
+                }
+                return redirect()->to('/manage');
+            }
+
+            session()->setFlashdata('error', 'Chyba při přidávání kočky!');
+        }
+
+        return view('manage_add', [
+            'title'  => 'Přidat novou kočku',
+            'breeds' => $this->breedModel->orderBy('name')->findAll(),
+            'errors' => [],
+        ]);
+    }
+
+    /**
+     * Edituje existující kočku (včetně plemene a dlouhého popisu z WYSIWYG).
+     */
+    public function edit($id)
+    {
+        $cat = $this->catModel->find($id);
+        if (! $cat) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Kočka nenalezena');
+        }
+
+        if ($this->request->getMethod() === 'POST') {
+            $rules = [
+                'name'             => 'required|min_length[2]|max_length[255]',
+                'breed_id'         => 'required|is_natural_no_zero',
+                'age'              => 'required|numeric|greater_than_equal_to[0]|less_than_equal_to[50]',
+                'gender'           => 'required|in_list[male,female]',
+                'long_description' => 'required|min_length[10]',
+            ];
+
+            if (! $this->validate($rules)) {
+                return view('manage_edit', [
+                    'title'           => 'Editace kočky',
+                    'cat'             => $cat,
+                    'breeds'          => $this->breedModel->orderBy('name')->findAll(),
+                    'selectedBreedId' => $this->catModel->getBreedId((int) $id),
+                    'errors'          => $this->validator->getErrors(),
+                ]);
+            }
+
+            $longDescription = $this->request->getPost('long_description');
+
+            $this->catModel->update($id, [
+                'name'             => $this->request->getPost('name'),
+                'age'              => $this->request->getPost('age'),
+                'gender'           => $this->request->getPost('gender'),
+                'description'      => strip_tags($longDescription),
+                'long_description' => $longDescription,
+            ]);
+            $this->catModel->setBreed((int) $id, (int) $this->request->getPost('breed_id'));
+
+            session()->setFlashdata('success', 'Kočka byla aktualizována!');
+            return redirect()->to('/manage');
+        }
+
+        return view('manage_edit', [
+            'title'           => 'Editace kočky',
+            'cat'             => $cat,
+            'breeds'          => $this->breedModel->orderBy('name')->findAll(),
+            'selectedBreedId' => $this->catModel->getBreedId((int) $id),
+            'errors'          => [],
+        ]);
+    }
+
+    /**
+     * Softdelete – archivuje kočku (uloží datum a čas do deleted_at).
      */
     public function softDelete($id)
     {
-        $cat = $this->catModel->find($id);
-        if (!$cat) {
+        if (! $this->catModel->find($id)) {
             session()->setFlashdata('error', 'Kočka nenalezena');
             return redirect()->to('/manage');
         }
 
         if ($this->catModel->delete($id)) {
-            session()->setFlashdata('success', '✓ Kočka byla archivována!');
+            session()->setFlashdata('success', 'Kočka byla archivována!');
         } else {
-            session()->setFlashdata('error', '✗ Chyba při archivaci');
+            session()->setFlashdata('error', 'Chyba při archivaci');
         }
 
         return redirect()->to('/manage');
     }
 
     /**
-     * Označit jako adoptovanou
+     * Označí kočku jako adoptovanou.
      */
     public function adopt($id)
     {
-        $cat = $this->catModel->find($id);
-        if (!$cat) {
+        if (! $this->catModel->find($id)) {
             session()->setFlashdata('error', 'Kočka nenalezena');
             return redirect()->to('/manage');
         }
 
         if ($this->catModel->update($id, ['status' => 'adopted'])) {
-            session()->setFlashdata('success', '💚 Kočka byla označena jako adoptovaná!');
+            session()->setFlashdata('success', 'Kočka byla označena jako adoptovaná!');
         } else {
-            session()->setFlashdata('error', '✗ Chyba při označení adopce');
+            session()->setFlashdata('error', 'Chyba při označení adopce');
         }
 
         return redirect()->to('/manage');
     }
 }
-

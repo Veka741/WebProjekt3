@@ -1,6 +1,6 @@
 <?= $this->extend('layout') ?>
 
-<?= $this->section('content') ?>
+<?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa uživatelů' => '/admin/users', 'Editace uživatele' => null]) ?>
 <div class="form-section">
     <h1>Editovat uživatele</h1>
 
@@ -9,46 +9,38 @@
             <strong>Chyby ve formuláři:</strong>
             <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
                 <?php foreach ($errors ?? [] as $error): ?>
-                    <li><?= $error ?></li>
+                    <li><?= esc($error) ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
     <?php endif; ?>
 
     <form method="POST" class="user-form">
-        <div class="form-group">
-            <label for="name">Jméno/Organizace *</label>
-            <input type="text" id="name" name="name" value="<?= $user['name'] ?? '' ?>" required>
+        <?= csrf_field() ?>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="first_name">Jméno *</label>
+                <input type="text" id="first_name" name="first_name" value="<?= esc($user['first_name'] ?? '') ?>" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Příjmení *</label>
+                <input type="text" id="last_name" name="last_name" value="<?= esc($user['last_name'] ?? '') ?>" required>
+            </div>
         </div>
 
         <div class="form-group">
             <label for="email">Email *</label>
-            <input type="email" id="email" name="email" value="<?= $user['email'] ?? '' ?>" required>
+            <input type="email" id="email" name="email" value="<?= esc($user['email'] ?? '') ?>" required>
         </div>
 
         <div class="form-group">
-            <label for="phone">Telefon *</label>
-            <input type="tel" id="phone" name="phone" value="<?= $user['phone'] ?? '' ?>" required>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="type">Typ uživatele *</label>
-                <select id="type" name="type" required>
-                    <option value="individual" <?= ($user['type'] ?? '') === 'individual' ? 'selected' : '' ?>>Jednotlivec</option>
-                    <option value="organization" <?= ($user['type'] ?? '') === 'organization' ? 'selected' : '' ?>>Organizace</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="city">Město *</label>
-                <input type="text" id="city" name="city" value="<?= $user['city'] ?? '' ?>" required>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="notes">Poznámky</label>
-            <textarea id="notes" name="notes" rows="4"><?= $user['notes'] ?? '' ?></textarea>
+            <label for="role">Role *</label>
+            <select id="role" name="role" required>
+                <option value="" disabled <?= empty($user['role']) ? 'selected' : '' ?>>-- Vyberte roli --</option>
+                <option value="user"      <?= ($user['role'] ?? '') === 'user' ? 'selected' : '' ?>>Uživatel</option>
+                <option value="volunteer" <?= ($user['role'] ?? '') === 'volunteer' ? 'selected' : '' ?>>Dobrovolník</option>
+                <option value="admin"     <?= ($user['role'] ?? '') === 'admin' ? 'selected' : '' ?>>Administrátor</option>
+            </select>
         </div>
 
         <div class="form-actions">

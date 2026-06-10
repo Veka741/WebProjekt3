@@ -17,10 +17,8 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Ion Auth's loggedIn() checks the session (and cookie remember-me)
-        $ionAuth = new \IonAuth\Libraries\IonAuth();
-
-        if (!$ionAuth->loggedIn()) {
+        // Přihlášení je uloženo v session (viz App\Controllers\Auth::login)
+        if (! session()->get('logged_in')) {
             session()->setFlashdata('error', 'Pro přístup do administrace se musíte přihlásit.');
             return redirect()->to('/auth/login');
         }

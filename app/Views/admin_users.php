@@ -2,6 +2,7 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
+<?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa uživatelů' => null]) ?>
 <div class="admin-section">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
         <h1>Správa uživatelů</h1>
@@ -18,29 +19,28 @@
             <div class="users-table">
                 <div class="table-header">
                     <div class="col-name">Jméno</div>
+                    <div class="col-username">Uživatel</div>
                     <div class="col-email">Email</div>
-                    <div class="col-phone">Telefon</div>
-                    <div class="col-type">Typ</div>
-                    <div class="col-city">Město</div>
+                    <div class="col-role">Role</div>
                     <div class="col-actions">Akce</div>
                 </div>
 
                 <?php foreach ($activeUsers as $user): ?>
                     <div class="table-row">
                         <div class="col-name">
-                            <strong><?= $user['name'] ?></strong>
+                            <strong><?= esc($user['first_name'] . ' ' . $user['last_name']) ?></strong>
                         </div>
-                        <div class="col-email"><?= $user['email'] ?></div>
-                        <div class="col-phone"><?= $user['phone'] ?></div>
-                        <div class="col-type">
-                            <span class="badge badge-<?= $user['type'] === 'individual' ? 'blue' : 'green' ?>">
-                                <?= $user['type'] === 'individual' ? 'Jednotlivec' : 'Organizace' ?>
+                        <div class="col-username"><?= esc($user['username']) ?></div>
+                        <div class="col-email"><?= esc($user['email']) ?></div>
+                        <div class="col-role">
+                            <span class="badge badge-<?= $user['role'] === 'admin' ? 'green' : 'blue' ?>">
+                                <?= esc(ucfirst($user['role'])) ?>
                             </span>
                         </div>
-                        <div class="col-city"><?= $user['city'] ?></div>
                         <div class="col-actions">
                             <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">editovat</a>
-                            <a href="/admin/users/soft-delete/<?= $user['id'] ?>" class="btn-action btn-delete" title="Archivovat" onclick="return confirm('Archivovat tohoto uživatele?');">🗑️</a>
+                            <button type="button" class="btn-action btn-delete" title="Archivovat"
+                                    onclick="openDeleteModal('<?= site_url('admin/users/soft-delete/'.$user['id']) ?>', '<?= esc($user['username'], 'js') ?>')">🗑️</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -56,26 +56,24 @@
             <div class="users-table">
                 <div class="table-header">
                     <div class="col-name">Jméno</div>
+                    <div class="col-username">Uživatel</div>
                     <div class="col-email">Email</div>
-                    <div class="col-phone">Telefon</div>
-                    <div class="col-type">Typ</div>
-                    <div class="col-city">Město</div>
+                    <div class="col-role">Role</div>
                     <div class="col-actions">Akce</div>
                 </div>
 
                 <?php foreach ($deletedUsers as $user): ?>
                     <div class="table-row deleted">
                         <div class="col-name">
-                            <strong><?= $user['name'] ?></strong>
+                            <strong><?= esc($user['first_name'] . ' ' . $user['last_name']) ?></strong>
                         </div>
-                        <div class="col-email"><?= $user['email'] ?></div>
-                        <div class="col-phone"><?= $user['phone'] ?></div>
-                        <div class="col-type">
-                            <span class="badge badge-<?= $user['type'] === 'individual' ? 'blue' : 'green' ?>">
-                                <?= $user['type'] === 'individual' ? 'Jednotlivec' : 'Organizace' ?>
+                        <div class="col-username"><?= esc($user['username']) ?></div>
+                        <div class="col-email"><?= esc($user['email']) ?></div>
+                        <div class="col-role">
+                            <span class="badge badge-<?= $user['role'] === 'admin' ? 'green' : 'blue' ?>">
+                                <?= esc(ucfirst($user['role'])) ?>
                             </span>
                         </div>
-                        <div class="col-city"><?= $user['city'] ?></div>
                         <div class="col-actions">
                             <a href="/admin/users/restore/<?= $user['id'] ?>" class="btn-action btn-restore" title="Obnovit" onclick="return confirm('Obnovit tohoto uživatele?');">↩️</a>
                         </div>
@@ -135,7 +133,7 @@
 
     .table-header {
         display: grid;
-        grid-template-columns: 1.5fr 1.5fr 1fr 1fr 1fr 0.8fr;
+        grid-template-columns: 1.5fr 1fr 1.5fr 0.8fr 0.8fr;
         gap: 1rem;
         padding: 1rem;
         background-color: #f5f5f5;
@@ -147,7 +145,7 @@
 
     .table-row {
         display: grid;
-        grid-template-columns: 1.5fr 1.5fr 1fr 1fr 1fr 0.8fr;
+        grid-template-columns: 1.5fr 1fr 1.5fr 0.8fr 0.8fr;
         gap: 1rem;
         padding: 1rem;
         border-bottom: 1px solid #eee;
@@ -226,11 +224,11 @@
     @media (max-width: 1200px) {
         .table-header,
         .table-row {
-            grid-template-columns: 1fr 1fr 0.8fr;
+            grid-template-columns: 1.5fr 1.5fr 0.8fr;
         }
 
-        .col-phone,
-        .col-city {
+        .col-username,
+        .col-role {
             display: none;
         }
     }
@@ -242,9 +240,8 @@
         }
 
         .col-email,
-        .col-type,
-        .col-phone,
-        .col-city {
+        .col-username,
+        .col-role {
             display: none;
         }
 
@@ -253,4 +250,29 @@
         }
     }
 </style>
+
+<!-- Modální okno pro potvrzení archivace uživatele -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-box">
+        <h3>Archivovat uživatele?</h3>
+        <p>Opravdu chcete archivovat uživatele <strong id="deleteModalName"></strong>? Záznam zůstane uložen (softdelete) a lze jej obnovit.</p>
+        <div class="modal-actions">
+            <button type="button" class="btn modal-btn-cancel" onclick="closeDeleteModal()">Zrušit</button>
+            <a href="#" id="deleteModalConfirm" class="btn modal-btn-confirm">Archivovat</a>
+        </div>
+    </div>
+</div>
+<script>
+    function openDeleteModal(url, name) {
+        document.getElementById('deleteModalName').textContent = name;
+        document.getElementById('deleteModalConfirm').setAttribute('href', url);
+        document.getElementById('deleteModal').classList.add('open');
+    }
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.remove('open');
+    }
+    document.getElementById('deleteModal').addEventListener('click', function (e) {
+        if (e.target === this) closeDeleteModal();
+    });
+</script>
 <?= $this->endSection() ?>

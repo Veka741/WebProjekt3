@@ -2,14 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<!-- Breadcrumbs -->
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb" style="background-color: rgba(102, 126, 234, 0.1); padding: 0.75rem 1rem; border-radius: 5px; margin-bottom: 2rem;">
-        <li class="breadcrumb-item"><a href="/">Domů</a></li>
-        <li class="breadcrumb-item"><a href="/manage">Moje inzeráty</a></li>
-        <li class="breadcrumb-item active">Přidat nový</li>
-    </ol>
-</nav>
+<?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa koček' => '/manage', 'Přidat novou' => null]) ?>
 
 <div class="form-section">
     <h1>➕ Přidat novou kočku</h1>
@@ -19,7 +12,7 @@
             <strong>Chyby ve formuláři:</strong>
             <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
                 <?php foreach ($errors ?? [] as $error): ?>
-                    <li><error ?></li>
+                    <li><?= esc($error) ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -36,8 +29,16 @@
 
         <div class="form-row">
             <div class="form-group">
-                <label for="breed">Plemeno *</label>
-                <input type="text" id="breed" name="breed" value="<?= old('breed') ?>" required>
+                <label for="breed_id">Plemeno *</label>
+                <select id="breed_id" name="breed_id" required>
+                    <option value="" disabled <?= old('breed_id') ? '' : 'selected' ?>>-- Vyberte plemeno --</option>
+                    <?php foreach ($breeds ?? [] as $breed): ?>
+                        <option value="<?= $breed['id'] ?>" <?= (string) old('breed_id') === (string) $breed['id'] ? 'selected' : '' ?>>
+                            <?= esc($breed['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <small>Načítá se z databáze (tabulka breeds)</small>
             </div>
 
             <div class="form-group">
@@ -65,8 +66,8 @@
 
         <div class="form-group">
             <label for="description">Detailní popis kočky *</label>
-            <textarea id="description" name="description" rows="8"><?= old('description') ?></textarea>
-            <small>Popište temperament, zvyky, zdravotní stav a zvláštnosti kočky</small>
+            <textarea id="description" name="long_description" rows="8"><?= old('long_description') ?></textarea>
+            <small>Popište temperament, zvyky, zdravotní stav a zvláštnosti kočky (WYSIWYG editor)</small>
         </div>
 
         <div class="form-actions">
@@ -87,7 +88,6 @@ tinymce.init({
         'table', 'help', 'wordcount'
     ],
     toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-    language: 'cs',
     height: 400,
     menubar: false,
     branding: false,

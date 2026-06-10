@@ -77,6 +77,10 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+
+            // Celý web vyžaduje přihlášení – jediné veřejné stránky jsou
+            // přihlašovací formulář, odhlášení a zapomenuté heslo.
+            'auth' => ['except' => ['auth/login', 'auth/logout', 'auth/forgot_password']],
         ],
         'after' => [
             // 'honeypot',
@@ -109,14 +113,7 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        // Protect manage/* and admin/users/* – redirect to /auth/login if not signed in
-        'auth' => [
-            'before' => [
-                'manage',
-                'manage/*',
-                'admin/users',
-                'admin/users/*',
-            ],
-        ],
+        // Přihlášení je nyní vyžadováno globálně (viz $globals['before']['auth']),
+        // takže zde už není potřeba chránit jednotlivé routy zvlášť.
     ];
 }

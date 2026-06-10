@@ -1,7 +1,7 @@
 
 <?= $this->extend('layout') ?>
 
-<?= $this->section('content') ?>
+<?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa koček' => '/manage', 'Editace kočky' => null]) ?>
 <div class="form-section">
     <h1>Editovat kočku</h1>
 
@@ -10,54 +10,52 @@
             <strong>Chyby ve formuláři:</strong>
             <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
                 <?php foreach ($errors as $error): ?>
-                    <li><?= $error ?></li>
+                    <li><?= esc($error) ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
     <?php endif; ?>
 
     <form method="POST" class="cat-form">
+        <?= csrf_field() ?>
         <div class="form-group">
             <label for="name">Jméno kočky *</label>
-            <input type="text" id="name" name="name" value="<?= $cat['name'] ?? '' ?>" required>
+            <input type="text" id="name" name="name" value="<?= esc($cat['name'] ?? '') ?>" required>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <label for="breed">Plemeno *</label>
-                <input type="text" id="breed" name="breed" value="<?= $cat['breed'] ?? '' ?>" required>
+                <label for="breed_id">Plemeno *</label>
+                <select id="breed_id" name="breed_id" required>
+                    <option value="" disabled <?= empty($selectedBreedId) ? 'selected' : '' ?>>-- Vyberte plemeno --</option>
+                    <?php foreach ($breeds ?? [] as $breed): ?>
+                        <option value="<?= $breed['id'] ?>" <?= (int) ($selectedBreedId ?? 0) === (int) $breed['id'] ? 'selected' : '' ?>>
+                            <?= esc($breed['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <small>Načítá se z databáze (tabulka breeds)</small>
             </div>
 
             <div class="form-group">
                 <label for="age">Věk (roky) *</label>
-                <input type="number" id="age" name="age" value="<?= $cat['age'] ?? '' ?>" min="0" max="50" required>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="gender">Pohlaví *</label>
-                <select id="gender" name="gender" required>
-                    <option value="male" <?= ($cat['gender'] ?? '') === 'male' ? 'selected' : '' ?>>Samec</option>
-                    <option value="female" <?= ($cat['gender'] ?? '') === 'female' ? 'selected' : '' ?>>Samice</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="user_id">Majitel/Organizace *</label>
-                <select id="user_id" name="user_id" required>
-                    <?php foreach ($users ?? [] as $user): ?>
-                        <option value="<?= $user['id'] ?>" <?= ($cat['user_id'] ?? '') == $user['id'] ? 'selected' : '' ?>>
-                            <?= $user['name'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <input type="number" id="age" name="age" value="<?= esc($cat['age'] ?? '') ?>" min="0" max="50" required>
             </div>
         </div>
 
         <div class="form-group">
-            <label for="description">Popis kočky</label>
-            <textarea id="description" name="description" rows="6"><?= $cat['description'] ?? '' ?></textarea>
+            <label for="gender">Pohlaví *</label>
+            <select id="gender" name="gender" required>
+                <option value="" disabled <?= empty($cat['gender']) ? 'selected' : '' ?>>-- Vyberte --</option>
+                <option value="male" <?= ($cat['gender'] ?? '') === 'male' ? 'selected' : '' ?>>Samec</option>
+                <option value="female" <?= ($cat['gender'] ?? '') === 'female' ? 'selected' : '' ?>>Samice</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Detailní popis kočky *</label>
+            <textarea id="description" name="long_description" rows="8"><?= esc($cat['long_description'] ?? $cat['description'] ?? '') ?></textarea>
+            <small>WYSIWYG editor – formátovaný dlouhý popis</small>
         </div>
 
         <div class="form-actions">
@@ -66,6 +64,24 @@
         </div>
     </form>
 </div>
+
+<!-- TinyMCE WYSIWYG Editor -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+<script>
+tinymce.init({
+    selector: '#description',
+    plugins: [
+        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor',
+        'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media',
+        'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+    height: 400,
+    menubar: false,
+    branding: false,
+    promotion: false
+});
+</script>
 
 <style>
     .form-section {
