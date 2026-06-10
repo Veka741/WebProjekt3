@@ -68,6 +68,7 @@ class Manage extends BaseController
                 'description'      => strip_tags($longDescription),
                 'long_description' => $longDescription,
                 'status'           => 'available',
+                'user_id'          => session('user_id'),
             ], true);
 
             if ($catId) {
