@@ -32,7 +32,7 @@ class Gallery extends BaseController
         $perPage = config('Gallery')->perPage;
 
         $photos = $this->photoModel
-            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, ANY_VALUE(users.email) AS owner_email, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
+            ->select('photos.*, cats.name AS cat_name, cats.status AS cat_status, cats.description, cats.age, cats.gender, ANY_VALUE(users.email) AS owner_email, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
             ->join('cats', 'cats.id = photos.cat_id', 'left')
             ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
             ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
@@ -70,7 +70,7 @@ class Gallery extends BaseController
         $perPage = config('Gallery')->perPage;
 
         $photos = $this->photoModel
-            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, ANY_VALUE(users.email) AS owner_email, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
+            ->select('photos.*, cats.name AS cat_name, cats.status AS cat_status, cats.description, cats.age, cats.gender, ANY_VALUE(users.email) AS owner_email, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
             ->join('cats', 'cats.id = photos.cat_id', 'left')
             ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
             ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
@@ -141,6 +141,29 @@ class Gallery extends BaseController
             session()->setFlashdata('success', 'Fotka byla smazána!');
         } else {
             session()->setFlashdata('error', 'Chyba při mazání fotky');
+        }
+
+        return redirect()->to('/gallery');
+    }
+
+    /**
+     * Rezervuje kočku z galerie – nastaví její stav na "reserved".
+     * Pouze pro přihlášené uživatele.
+     *
+     * @param int $catId ID kočky, kterou chceme rezervovat.
+     */
+    public function reserve(int $catId)
+    {
+        $cat = $this->catModel->find($catId);
+        if (! $cat) {
+            session()->setFlashdata('error', 'Kočka nenalezena');
+            return redirect()->to('/gallery');
+        }
+
+        if ($this->catModel->update($catId, ['status' => 'reserved'])) {
+            session()->setFlashdata('success', 'Kočka byla rezervována!');
+        } else {
+            session()->setFlashdata('error', 'Chyba při rezervaci');
         }
 
         return redirect()->to('/gallery');

@@ -32,6 +32,9 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                         <img src="<?= base_url('images/' . $photo['image_path']) ?>"
                              alt="<?= esc($photo['cat_name'] ?? 'Kočka') ?>"
                              onerror="this.parentNode.innerHTML='<div class=&quot;placeholder&quot;>🐱</div>';">
+                        <?php if (($photo['cat_status'] ?? '') === 'reserved'): ?>
+                            <span class="reserved-badge">✓ Rezervováno</span>
+                        <?php endif; ?>
                     </div>
                     <div class="photo-info">
                         <h3><?= esc($photo['cat_name'] ?? 'Neznámá kočka') ?></h3>
@@ -53,10 +56,14 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                         <p class="owner">✉ <?= esc($photo['owner_email'] ?? 'Neznámý inzerent') ?></p>
                         <p class="date">Přidáno: <?= esc($photo['created_at'] ?? '') ?></p>
                         <?php if (session('user_id')): ?>
-                            <button type="button" class="btn-delete"
-                                    onclick="openDeleteModal('<?= site_url('gallery/delete/' . $photo['id']) ?>', '<?= esc($photo['cat_name'] ?? 'tuto fotku', 'js') ?>')">
-                                Smazat
-                            </button>
+                            <?php if (($photo['cat_status'] ?? '') === 'reserved'): ?>
+                                <button type="button" class="btn-reserve" disabled>Rezervováno</button>
+                            <?php else: ?>
+                                <button type="button" class="btn-reserve"
+                                        onclick="openReserveModal('<?= site_url('gallery/reserve/' . $photo['cat_id']) ?>', '<?= esc($photo['cat_name'] ?? 'tuto kočku', 'js') ?>')">
+                                    Rezervovat
+                                </button>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -71,29 +78,29 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
     <?php endif; ?>
 </div>
 
-<!-- Modální okno pro potvrzení mazání fotky -->
-<div class="modal-overlay" id="deleteModal">
+<!-- Modální okno pro potvrzení rezervace kočky -->
+<div class="modal-overlay" id="reserveModal">
     <div class="modal-box">
-        <h3>Smazat fotku?</h3>
-        <p>Opravdu chcete smazat fotku kočky <strong id="deleteModalName"></strong>? Záznam bude označen jako smazaný (softdelete).</p>
+        <h3>Rezervovat kočku?</h3>
+        <p>Opravdu chcete rezervovat kočku <strong id="reserveModalName"></strong>? Kočka se označí jako rezervovaná.</p>
         <div class="modal-actions">
-            <button type="button" class="btn modal-btn-cancel" onclick="closeDeleteModal()">Zrušit</button>
-            <a href="#" id="deleteModalConfirm" class="btn modal-btn-confirm">Smazat</a>
+            <button type="button" class="btn modal-btn-cancel" onclick="closeReserveModal()">Zrušit</button>
+            <a href="#" id="reserveModalConfirm" class="btn modal-btn-confirm">Rezervovat</a>
         </div>
     </div>
 </div>
 
 <script>
-    function openDeleteModal(url, name) {
-        document.getElementById('deleteModalName').textContent = name;
-        document.getElementById('deleteModalConfirm').setAttribute('href', url);
-        document.getElementById('deleteModal').classList.add('open');
+    function openReserveModal(url, name) {
+        document.getElementById('reserveModalName').textContent = name;
+        document.getElementById('reserveModalConfirm').setAttribute('href', url);
+        document.getElementById('reserveModal').classList.add('open');
     }
-    function closeDeleteModal() {
-        document.getElementById('deleteModal').classList.remove('open');
+    function closeReserveModal() {
+        document.getElementById('reserveModal').classList.remove('open');
     }
-    document.getElementById('deleteModal').addEventListener('click', function (e) {
-        if (e.target === this) closeDeleteModal();
+    document.getElementById('reserveModal').addEventListener('click', function (e) {
+        if (e.target === this) closeReserveModal();
     });
 </script>
 
@@ -117,8 +124,13 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
         display: flex; flex-direction: column;
     }
     .photo-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
-    .photo-img { height: 200px; overflow: hidden; }
+    .photo-img { position: relative; height: 200px; overflow: hidden; }
     .photo-img img { width: 100%; height: 100%; object-fit: cover; }
+    .reserved-badge {
+        position: absolute; top: 10px; right: 10px;
+        background: rgba(33, 150, 243, 0.95); color: #fff;
+        padding: 0.35rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold;
+    }
     .placeholder {
         width: 100%; height: 200px; display: flex; align-items: center; justify-content: center;
         font-size: 70px; background: linear-gradient(135deg, #9098bd 0%, #856e9c 100%);
@@ -134,11 +146,12 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
     .photo-info .cat-description p { color: #555; line-height: 1.5; font-size: 0.9rem; }
     .photo-info .owner { color: #667eea; font-size: 0.85rem; word-break: break-all; }
     .photo-info .date { color: #999; font-size: 0.85rem; }
-    .btn-delete {
-        margin-top: auto; background: #dc3545; color: #fff; border: none; cursor: pointer;
+    .btn-reserve {
+        margin-top: auto; background: #df4580; color: #fff; border: none; cursor: pointer;
         padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem;
     }
-    .btn-delete:hover { background: #b02a37; }
+    .btn-reserve:hover { background: #dd0f76; }
+    .btn-reserve:disabled { background: #9e9e9e; cursor: default; }
 
     .empty-box {
         background: #fff; padding: 3rem; border-radius: 10px; text-align: center;

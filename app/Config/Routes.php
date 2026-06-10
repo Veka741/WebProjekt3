@@ -16,6 +16,7 @@ $routes->get('gallery',                   'Gallery::index');
 $routes->get('gallery/cat/(:num)/(:num)', 'Gallery::byCat/$1/$2');
 $routes->get('gallery/add',               'Gallery::add');
 $routes->post('gallery/add',              'Gallery::add');
+$routes->get('gallery/reserve/(:num)',    'Gallery::reserve/$1');
 $routes->get('gallery/delete/(:num)',     'Gallery::delete/$1');
 
 // ── Autentizace (vlastní přihlášení proti tabulce users) ─────────────────────
