@@ -35,6 +35,21 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                     </div>
                     <div class="photo-info">
                         <h3><?= esc($photo['cat_name'] ?? 'Neznámá kočka') ?></h3>
+                        <p class="breed"><?= esc($photo['breed'] ?: 'Neznámé plemeno') ?></p>
+                        <?php if (!empty($photo['age']) || !empty($photo['gender'])): ?>
+                            <p class="details">
+                                <?php if (!empty($photo['age'])): ?><span><?= (int) $photo['age'] ?> let</span><?php endif; ?>
+                                <?php if (!empty($photo['age']) && !empty($photo['gender'])): ?> • <?php endif; ?>
+                                <?php if (!empty($photo['gender'])): ?><span><?= $photo['gender'] === 'male' ? 'Kluk' : 'Holka' ?></span><?php endif; ?>
+                            </p>
+                        <?php endif; ?>
+
+                        <?php if (!empty($photo['description'])): ?>
+                            <div class="cat-description">
+                                <p><?= esc($photo['description']) ?></p>
+                            </div>
+                        <?php endif; ?>
+
                         <p class="date">Přidáno: <?= esc($photo['created_at'] ?? '') ?></p>
                         <?php if (session('user_id')): ?>
                             <button type="button" class="btn-delete"
@@ -109,6 +124,13 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
     }
     .photo-info { padding: 1rem; flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem; }
     .photo-info h3 { color: #667eea; font-size: 1.1rem; }
+    .photo-info .breed { color: #764ba2; font-weight: 600; font-size: 0.95rem; }
+    .photo-info .details { color: #666; font-size: 0.9rem; }
+    .photo-info .cat-description {
+        background-color: #f9f9f9; padding: 0.8rem; border-radius: 6px;
+        border-left: 3px solid #667eea;
+    }
+    .photo-info .cat-description p { color: #555; line-height: 1.5; font-size: 0.9rem; }
     .photo-info .date { color: #999; font-size: 0.85rem; }
     .btn-delete {
         margin-top: auto; background: #dc3545; color: #fff; border: none; cursor: pointer;

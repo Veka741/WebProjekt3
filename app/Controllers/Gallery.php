@@ -32,9 +32,12 @@ class Gallery extends BaseController
         $perPage = config('Gallery')->perPage;
 
         $photos = $this->photoModel
-            ->select('photos.*, cats.name AS cat_name')
+            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
             ->join('cats', 'cats.id = photos.cat_id', 'left')
+            ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
+            ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
             ->where('photos.deleted_at', null)
+            ->groupBy('photos.id')
             ->orderBy('photos.created_at', 'DESC')
             ->paginate($perPage);
 
@@ -66,10 +69,13 @@ class Gallery extends BaseController
         $perPage = config('Gallery')->perPage;
 
         $photos = $this->photoModel
-            ->select('photos.*, cats.name AS cat_name')
+            ->select('photos.*, cats.name AS cat_name, cats.description, cats.age, cats.gender, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
             ->join('cats', 'cats.id = photos.cat_id', 'left')
+            ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
+            ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
             ->where('photos.cat_id', $catId)
             ->where('photos.deleted_at', null)
+            ->groupBy('photos.id')
             ->orderBy('photos.created_at', 'DESC')
             ->paginate($perPage, 'default', $page);
 
