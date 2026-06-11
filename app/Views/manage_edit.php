@@ -66,17 +66,14 @@
     </form>
 </div>
 
-<!-- TinyMCE WYSIWYG Editor -->
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
+<!-- TinyMCE WYSIWYG editor – self-hosted GPL verze (bez API klíče) -->
+<script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js"></script>
 <script>
 tinymce.init({
     selector: '#description',
-    plugins: [
-        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview', 'anchor',
-        'searchreplace', 'visualblocks', 'code', 'fullscreen', 'insertdatetime', 'media',
-        'table', 'help', 'wordcount'
-    ],
-    toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
+    license_key: 'gpl',
+    plugins: 'advlist autolink lists link charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime table help wordcount',
+    toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
     height: 400,
     menubar: false,
     branding: false,
