@@ -91,6 +91,32 @@ class Gallery extends BaseController
     }
 
     /**
+     * Detail kočky z galerie – zobrazí podrobný (WYSIWYG) popis kočky.
+     *
+     * @param int $catId ID kočky.
+     */
+    public function detail(int $catId)
+    {
+        $cat = $this->catModel->find($catId);
+        if (! $cat) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Kočka nenalezena');
+        }
+
+        $breedId = $this->catModel->getBreedId($catId);
+        $breed   = $breedId ? (new \App\Models\Breed())->find($breedId) : null;
+
+        return view('manage_detail', [
+            'title'     => 'Detail kočky ' . $cat['name'],
+            'cat'       => $cat,
+            'breedName' => $breed['name'] ?? 'Neznámé plemeno',
+            'photo'     => $this->photoModel->where('cat_id', $catId)->where('deleted_at', null)->first(),
+            'crumbs'    => ['Domů' => '/', 'Galerie fotek' => '/gallery', $cat['name'] => null],
+            'backUrl'   => '/gallery',
+            'backLabel' => '← Zpět do galerie',
+        ]);
+    }
+
+    /**
      * Přidání nové fotky (formulář + uložení). Pouze pro přihlášené uživatele.
      */
     public function add()

@@ -12,6 +12,7 @@ $routes->get('/success', 'Success::index');
 
 // ── Galerie fotek (veřejný výpis; přidání a mazání jen pro přihlášené) ────────
 $routes->get('gallery',                   'Gallery::index');
+$routes->get('gallery/detail/(:num)',     'Gallery::detail/$1');
 // Routa se DVĚMA parametry: ID kočky + číslo stránky stránkování
 $routes->get('gallery/cat/(:num)/(:num)', 'Gallery::byCat/$1/$2');
 $routes->get('gallery/add',               'Gallery::add');

@@ -37,7 +37,7 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                         <?php endif; ?>
                     </div>
                     <div class="photo-info">
-                        <h3><?= esc($photo['cat_name'] ?? 'Neznámá kočka') ?></h3>
+                        <h3><a href="<?= site_url('gallery/detail/' . $photo['cat_id']) ?>" class="cat-link"><?= esc($photo['cat_name'] ?? 'Neznámá kočka') ?></a></h3>
                         <p class="breed"><?= esc($photo['breed'] ?: 'Neznámé plemeno') ?></p>
                         <?php if (!empty($photo['age']) || !empty($photo['gender'])): ?>
                             <p class="details">
@@ -54,6 +54,7 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                         <?php endif; ?>
 
                         <p class="owner">✉ <?= esc($photo['owner_email'] ?? 'Neznámý inzerent') ?></p>
+                        <a href="<?= site_url('gallery/detail/' . $photo['cat_id']) ?>" class="detail-link">Číst podrobný popis →</a>
                         <p class="date">Přidáno: <?= esc($photo['created_at'] ?? '') ?></p>
                         <?php if (session('user_id')): ?>
                             <?php if (($photo['cat_status'] ?? '') === 'reserved'): ?>
@@ -137,6 +138,10 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
     }
     .photo-info { padding: 1rem; flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem; }
     .photo-info h3 { color: #667eea; font-size: 1.1rem; }
+    .photo-info h3 .cat-link { color: #667eea; text-decoration: none; }
+    .photo-info h3 .cat-link:hover { text-decoration: underline; }
+    .photo-info .detail-link { color: #764ba2; font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .photo-info .detail-link:hover { text-decoration: underline; }
     .photo-info .breed { color: #764ba2; font-weight: 600; font-size: 0.95rem; }
     .photo-info .details { color: #666; font-size: 0.9rem; }
     .photo-info .cat-description {

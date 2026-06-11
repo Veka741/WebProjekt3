@@ -1,7 +1,7 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
-<?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa koček' => '/manage', $cat['name'] => null]) ?>
+<?= (new \App\Libraries\Breadcrumb())->render($crumbs ?? ['Domů' => '/', 'Správa koček' => '/manage', $cat['name'] => null]) ?>
 
 <div class="detail-section">
     <div class="detail-card">
@@ -35,7 +35,7 @@
 
             <div class="detail-actions">
                 <a href="/manage/edit/<?= $cat['id'] ?>" class="btn btn-primary">Editovat</a>
-                <a href="/manage" class="btn btn-secondary">← Zpět na seznam</a>
+                <a href="<?= esc($backUrl ?? '/manage', 'attr') ?>" class="btn btn-secondary"><?= esc($backLabel ?? '← Zpět na seznam') ?></a>
             </div>
         </div>
     </div>
