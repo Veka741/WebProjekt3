@@ -61,6 +61,7 @@
                     </div>
 
                     <div class="card-actions">
+                        <a href="/manage/detail/<?= $cat['id'] ?>" class="btn btn-small btn-detail">Detail</a>
                         <a href="/manage/edit/<?= $cat['id'] ?>" class="btn btn-small btn-edit">Editovat</a>
                         <?php if ($cat['status'] !== 'adopted'): ?>
                             <a href="/manage/adopt/<?= $cat['id'] ?>" class="btn btn-small btn-adopt" onclick="return confirm('Označit tuto kočku jako adoptovanou?');">Adoptovaná</a>
@@ -165,6 +166,15 @@
     .btn-small {
         padding: 0.5rem 1rem;
         font-size: 0.85rem;
+    }
+
+    .btn-detail {
+        background-color: #667eea;
+        color: white;
+    }
+
+    .btn-detail:hover {
+        background-color: #5568d3;
     }
 
     .btn-edit {

@@ -149,6 +149,45 @@ class Manage extends BaseController
     }
 
     /**
+     * Detail kočky – zobrazí mimo jiné dlouhý formátovaný popis (WYSIWYG).
+     *
+     * @param int $id ID kočky.
+     */
+    public function detail($id)
+    {
+        $cat = $this->catModel->find($id);
+        if (! $cat) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Kočka nenalezena');
+        }
+
+        $photoModel = new Photo();
+
+        return view('manage_detail', [
+            'title'     => 'Detail kočky ' . $cat['name'],
+            'cat'       => $cat,
+            'breedName' => $this->getBreedName((int) $id),
+            'photo'     => $photoModel->where('cat_id', $id)->where('deleted_at', null)->first(),
+        ]);
+    }
+
+    /**
+     * Pomocná metoda – vrátí název plemene navázaného na kočku.
+     *
+     * @param int $catId ID kočky.
+     *
+     * @return string Název plemene, nebo 'Neznámé plemeno'.
+     */
+    private function getBreedName(int $catId): string
+    {
+        $breedId = $this->catModel->getBreedId($catId);
+        if (! $breedId) {
+            return 'Neznámé plemeno';
+        }
+        $breed = $this->breedModel->find($breedId);
+        return $breed['name'] ?? 'Neznámé plemeno';
+    }
+
+    /**
      * Softdelete – archivuje kočku (uloží datum a čas do deleted_at).
      */
     public function softDelete($id)

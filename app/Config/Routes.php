@@ -28,6 +28,7 @@ $routes->get( 'auth/forgot_password', 'Auth::forgot_password');
 // ── Správa koček (chráněno AuthFilter – viz app/Config/Filters.php) ──────────
 $routes->group('manage', function (RouteCollection $routes) {
     $routes->get('',                'Manage::index');
+    $routes->get('detail/(:num)',   'Manage::detail/$1');
     $routes->get('add',             'Manage::add');
     $routes->post('add',            'Manage::add');
     $routes->get('edit/(:num)',     'Manage::edit/$1');

@@ -1,6 +1,7 @@
 
 <?= $this->extend('layout') ?>
 
+<?= $this->section('content') ?>
 <?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa koček' => '/manage', 'Editace kočky' => null]) ?>
 <div class="form-section">
     <h1>Editovat kočku</h1>
