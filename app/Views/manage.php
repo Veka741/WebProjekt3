@@ -67,6 +67,10 @@
                         <?php endif; ?>
                         <button type="button" class="btn btn-small btn-archive"
                                 onclick="openDeleteModal('<?= site_url('manage/soft-delete/'.$cat['id']) ?>', '<?= esc($cat['name'], 'js') ?>')">Archivovat</button>
+                        <?php if (!empty($cat['photo_id'])): ?>
+                            <button type="button" class="btn btn-small btn-photo-delete"
+                                    onclick="openPhotoModal('<?= site_url('manage/delete-photo/'.$cat['photo_id']) ?>', '<?= esc($cat['name'], 'js') ?>')">Smazat fotku</button>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -86,6 +90,18 @@
     </div>
 </div>
 
+<!-- Modální okno pro potvrzení smazání fotky -->
+<div class="modal-overlay" id="photoModal">
+    <div class="modal-box">
+        <h3>Smazat fotku?</h3>
+        <p>Opravdu chcete smazat fotku kočky <strong id="photoModalName"></strong>? Fotka bude označena jako smazaná (softdelete).</p>
+        <div class="modal-actions">
+            <button type="button" class="btn modal-btn-cancel" onclick="closePhotoModal()">Zrušit</button>
+            <a href="#" id="photoModalConfirm" class="btn modal-btn-confirm">Smazat fotku</a>
+        </div>
+    </div>
+</div>
+
 <script>
     function openDeleteModal(url, name) {
         document.getElementById('deleteModalName').textContent = name;
@@ -98,6 +114,18 @@
     // Zavření kliknutím mimo okno
     document.getElementById('deleteModal').addEventListener('click', function (e) {
         if (e.target === this) closeDeleteModal();
+    });
+
+    function openPhotoModal(url, name) {
+        document.getElementById('photoModalName').textContent = name;
+        document.getElementById('photoModalConfirm').setAttribute('href', url);
+        document.getElementById('photoModal').classList.add('open');
+    }
+    function closePhotoModal() {
+        document.getElementById('photoModal').classList.remove('open');
+    }
+    document.getElementById('photoModal').addEventListener('click', function (e) {
+        if (e.target === this) closePhotoModal();
     });
 </script>
 
@@ -164,6 +192,15 @@
 
     .btn-archive:hover {
         background-color: #e68900;
+    }
+
+    .btn-photo-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .btn-photo-delete:hover {
+        background-color: #b02a37;
     }
 
     .cats-cards {

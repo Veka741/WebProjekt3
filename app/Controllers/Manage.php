@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Cat;
 use App\Models\Breed;
+use App\Models\Photo;
 use App\Libraries\ImageUploader;
 
 /**
@@ -161,6 +162,29 @@ class Manage extends BaseController
             session()->setFlashdata('success', 'Kočka byla archivována!');
         } else {
             session()->setFlashdata('error', 'Chyba při archivaci');
+        }
+
+        return redirect()->to('/manage');
+    }
+
+    /**
+     * Softdelete fotky kočky (uloží datum a čas do deleted_at).
+     *
+     * @param int $photoId ID fotky, kterou chceme smazat.
+     */
+    public function deletePhoto($photoId)
+    {
+        $photoModel = new Photo();
+
+        if (! $photoModel->find($photoId)) {
+            session()->setFlashdata('error', 'Fotka nenalezena');
+            return redirect()->to('/manage');
+        }
+
+        if ($photoModel->delete($photoId)) {
+            session()->setFlashdata('success', 'Fotka byla smazána!');
+        } else {
+            session()->setFlashdata('error', 'Chyba při mazání fotky');
         }
 
         return redirect()->to('/manage');

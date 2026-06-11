@@ -33,6 +33,7 @@ $routes->group('manage', function (RouteCollection $routes) {
     $routes->get('edit/(:num)',     'Manage::edit/$1');
     $routes->post('edit/(:num)',    'Manage::edit/$1');
     $routes->get('soft-delete/(:num)', 'Manage::softDelete/$1');
+    $routes->get('delete-photo/(:num)', 'Manage::deletePhoto/$1');
     $routes->get('adopt/(:num)',    'Manage::adopt/$1');
 });
 

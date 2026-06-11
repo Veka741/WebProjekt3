@@ -52,8 +52,8 @@ class Cat extends Model
     public function getCatsWithDetails(?string $status = null): array
     {
         $builder = $this
-            ->select('cats.*, ANY_VALUE(photos.image_path) AS photo, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
-            ->join('photos', 'photos.cat_id = cats.id', 'left')
+            ->select('cats.*, ANY_VALUE(photos.id) AS photo_id, ANY_VALUE(photos.image_path) AS photo, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
+            ->join('photos', 'photos.cat_id = cats.id AND photos.deleted_at IS NULL', 'left')
             ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
             ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
             ->where('cats.deleted_at', null)
