@@ -56,7 +56,6 @@
         <div class="form-group">
             <label for="description">Detailní popis kočky *</label>
             <textarea id="description" name="long_description" rows="8"><?= esc($cat['long_description'] ?? $cat['description'] ?? '') ?></textarea>
-            <small>WYSIWYG editor – formátovaný dlouhý popis</small>
         </div>
 
         <div class="form-actions">
