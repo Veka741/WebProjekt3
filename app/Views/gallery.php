@@ -33,7 +33,7 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                              alt="<?= esc($photo['cat_name'] ?? 'Kočka') ?>"
                              onerror="this.parentNode.innerHTML='<div class=&quot;placeholder&quot;>🐱</div>';">
                         <?php if (($photo['cat_status'] ?? '') === 'reserved'): ?>
-                            <span class="reserved-badge">✓ Rezervováno</span>
+                            <span class="reserved-badge">✓ <?= esc(\App\Libraries\CatStatus::label('reserved', $photo['gender'])) ?></span>
                         <?php endif; ?>
                     </div>
                     <div class="photo-info">
@@ -58,7 +58,7 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                         <p class="date">Přidáno: <?= esc($photo['created_at'] ?? '') ?></p>
                         <?php if (session('user_id')): ?>
                             <?php if (($photo['cat_status'] ?? '') === 'reserved'): ?>
-                                <button type="button" class="btn-reserve" disabled>Rezervováno</button>
+                                <button type="button" class="btn-reserve" disabled><?= esc(\App\Libraries\CatStatus::label('reserved', $photo['gender'])) ?></button>
                             <?php else: ?>
                                 <button type="button" class="btn-reserve"
                                         onclick="openReserveModal('<?= site_url('gallery/reserve/' . $photo['cat_id']) ?>', '<?= esc($photo['cat_name'] ?? 'tuto kočku', 'js') ?>')">

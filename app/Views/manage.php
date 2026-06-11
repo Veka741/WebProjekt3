@@ -31,11 +31,7 @@
                             <div class="placeholder-image"></div>
                         <?php endif; ?>
                         <div class="status-badge <?= $cat['status'] ?>">
-                            <?php if ($cat['status'] === 'adopted'): ?>
-                                ✓ Adoptovaná
-                            <?php else: ?>
-                                ✓ Dostupná
-                            <?php endif; ?>
+                            ✓ <?= esc(\App\Libraries\CatStatus::label($cat['status'], $cat['gender'])) ?>
                         </div>
                     </div>
 
@@ -275,6 +271,14 @@
 
     .status-badge.adopted {
         background-color: rgba(33, 150, 243, 0.9);
+    }
+
+    .status-badge.reserved {
+        background-color: rgba(223, 69, 128, 0.9);
+    }
+
+    .status-badge.pending {
+        background-color: rgba(255, 152, 0, 0.9);
     }
 
     .card-body {
