@@ -31,7 +31,7 @@
                             <div class="placeholder-image"></div>
                         <?php endif; ?>
                         <div class="status-badge <?= $cat['status'] ?>">
-                            ✓ <?= esc(\App\Libraries\CatStatus::label($cat['status'], $cat['gender'])) ?>
+                            ✓ <?= esc(\App\Libraries\CatStatus::label($cat['status'])) ?>
                         </div>
                     </div>
 
@@ -47,7 +47,7 @@
                         </div>
                         <div class="info-row">
                             <span class="label">Pohlaví:</span>
-                            <span><?= ucfirst($cat['gender']) ?></span>
+                            <span><?= $cat['gender'] === 'male' ? 'Kluk' : 'Holka' ?></span>
                         </div>
                         <?php if ($cat['description']): ?>
                             <div class="description-preview">

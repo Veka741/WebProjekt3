@@ -22,7 +22,7 @@
                         <?php else: ?>
                             <div class="placeholder"> </div>
                         <?php endif; ?>
-                        <div class="adopted-badge">✓ <?= esc(mb_strtoupper(\App\Libraries\CatStatus::label('adopted', $cat['gender']))) ?></div>
+                        <div class="adopted-badge">✓ <?= esc(mb_strtoupper(\App\Libraries\CatStatus::label('adopted'))) ?></div>
                     </div>
 
                     <div class="success-info">

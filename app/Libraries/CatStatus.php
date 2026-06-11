@@ -5,33 +5,30 @@ namespace App\Libraries;
 /**
  * CatStatus – knihovna pro převod stavu kočky na český popisek.
  *
- * Sjednocuje zobrazení stavu (available/adopted/reserved) napříč celou
- * aplikací do češtiny, a to ve správném rodu podle pohlaví kočky.
+ * Sjednocuje zobrazení stavu (available/reserved/adopted) napříč celou
+ * aplikací do češtiny. Protože podstatné jméno „kočka" je rodu ženského,
+ * popisky jsou vždy v ženském tvaru.
  */
 class CatStatus
 {
     /**
-     * Vrátí český popisek stavu kočky ve správném rodu.
+     * Vrátí český popisek stavu kočky.
      *
      * Co dělá:
-     *   Z anglické hodnoty stavu uložené v databázi (available/adopted/reserved)
-     *   sestaví český text. Podle pohlaví zvolí mužský (-ý) nebo ženský (-á) tvar
-     *   (např. "Dostupný" vs. "Dostupná"). Neznámý stav vrátí beze změny.
+     *   Z anglické hodnoty stavu uložené v databázi sestaví český text
+     *   ("available" → "Dostupná k adopci", "reserved" → "Rezervovaná",
+     *   "adopted" → "Adoptovaná"). Neznámý stav vrátí beze změny.
      *
-     * @param string      $status Stav z databáze: 'available', 'adopted' nebo 'reserved'.
-     * @param string|null $gender Pohlaví kočky: 'male' = mužský tvar, jinak ženský.
+     * @param string $status Stav z databáze: 'available', 'reserved' nebo 'adopted'.
      *
-     * @return string Český popisek stavu (např. "Dostupná", "Adoptovaný", "Rezervovaná").
+     * @return string Český popisek stavu.
      */
-    public static function label(string $status, ?string $gender = null): string
+    public static function label(string $status): string
     {
-        $male = (strtolower((string) $gender) === 'male');
-
         return match ($status) {
-            'available' => $male ? 'Dostupný'   : 'Dostupná',
-            'adopted'   => $male ? 'Adoptovaný' : 'Adoptovaná',
-            'reserved'  => $male ? 'Rezervovaný' : 'Rezervovaná',
-            'pending'   => 'Čekající',
+            'available' => 'Dostupná k adopci',
+            'reserved'  => 'Rezervovaná',
+            'adopted'   => 'Adoptovaná',
             default     => $status,
         };
     }

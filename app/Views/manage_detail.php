@@ -21,7 +21,7 @@
                 <span><strong>Plemeno:</strong> <?= esc($breedName) ?></span>
                 <span><strong>Věk:</strong> <?= (int) $cat['age'] ?> let</span>
                 <span><strong>Pohlaví:</strong> <?= $cat['gender'] === 'male' ? 'Kluk' : 'Holka' ?></span>
-                <span><strong>Stav:</strong> <?= esc(\App\Libraries\CatStatus::label($cat['status'], $cat['gender'])) ?></span>
+                <span><strong>Stav:</strong> <?= esc(\App\Libraries\CatStatus::label($cat['status'])) ?></span>
             </div>
 
             <h2>Podrobný popis</h2>
