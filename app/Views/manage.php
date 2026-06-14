@@ -17,7 +17,7 @@
 
     <?php if (empty($cats)): ?>
         <div style="background-color: white; padding: 3rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-            <p style="font-size: 1.3rem; color: #667eea; margin-bottom: 1.5rem;"> Zatím jste nepřidali žádné kočky.</p>
+            <p style="font-size: 1.3rem; color: #33665a; margin-bottom: 1.5rem;"> Zatím jste nepřidali žádné kočky.</p>
             <a href="/manage/add" class="btn btn-primary btn-large">Přidat první kočku</a>
         </div>
     <?php else: ?>
@@ -31,7 +31,7 @@
                             <div class="placeholder-image"></div>
                         <?php endif; ?>
                         <div class="status-badge <?= $cat['status'] ?>">
-                            ✓ <?= esc(\App\Libraries\CatStatus::label($cat['status'])) ?>
+                            <?= esc(\App\Libraries\CatStatus::label($cat['status'])) ?>
                         </div>
                     </div>
 
@@ -128,7 +128,7 @@
 
 <style>
     .manage-section h1 {
-        color: #667eea;
+        color: #33665a;
         font-size: 2rem;
     }
 
@@ -150,7 +150,7 @@
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #757c9bff 0%, #a99bb8ff 100%);
+        background: linear-gradient(135deg, #33665a 0%, #4a7a6c 100%);
         color: white;
     }
 
@@ -165,12 +165,12 @@
     }
 
     .btn-detail {
-        background-color: #667eea;
+        background-color: #33665a;
         color: white;
     }
 
     .btn-detail:hover {
-        background-color: #5568d3;
+        background-color: #28534a;
     }
 
     .btn-edit {
@@ -183,12 +183,12 @@
     }
 
     .btn-adopt {
-        background-color: #df4580ff;
+        background-color: #cf6a4c;
         color: white;
     }
 
     .btn-adopt:hover {
-        background-color: #dd0f76ff;
+        background-color: #b9543a;
     }
 
     .btn-archive {
@@ -247,7 +247,7 @@
     .placeholder-image {
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #9098bdff 0%, #856e9cff 100%);
+        background: linear-gradient(135deg, #6f8f84ff 0%, #22463cff 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -287,7 +287,7 @@
     }
 
     .card-body h3 {
-        color: #667eea;
+        color: #33665a;
         margin-bottom: 1rem;
         font-size: 1.3rem;
     }
@@ -315,7 +315,7 @@
         margin-top: 1rem;
         font-size: 0.9rem;
         color: #666;
-        border-left: 3px solid #667eea;
+        border-left: 3px solid #33665a;
     }
 
     .card-actions {

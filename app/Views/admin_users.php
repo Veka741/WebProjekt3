@@ -11,7 +11,7 @@
 
     <!-- Aktivní uživatelé -->
     <div class="section-box">
-        <h2>✓ Aktivní uživatelé (<?= count($activeUsers) ?>)</h2>
+        <h2>Aktivní uživatelé (<?= count($activeUsers) ?>)</h2>
         
         <?php if (empty($activeUsers)): ?>
             <p style="text-align: center; color: #999; padding: 2rem;">Žádní aktivní uživatelé</p>
@@ -40,7 +40,7 @@
                         <div class="col-actions">
                             <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">editovat</a>
                             <button type="button" class="btn-action btn-delete" title="Archivovat"
-                                    onclick="openDeleteModal('<?= site_url('admin/users/soft-delete/'.$user['id']) ?>', '<?= esc($user['username'], 'js') ?>')">🗑️</button>
+                                    onclick="openDeleteModal('<?= site_url('admin/users/soft-delete/'.$user['id']) ?>', '<?= esc($user['username'], 'js') ?>')"></button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -75,7 +75,7 @@
                             </span>
                         </div>
                         <div class="col-actions">
-                            <a href="/admin/users/restore/<?= $user['id'] ?>" class="btn-action btn-restore" title="Obnovit" onclick="return confirm('Obnovit tohoto uživatele?');">↩️</a>
+                            <a href="/admin/users/restore/<?= $user['id'] ?>" class="btn-action btn-restore" title="Obnovit" onclick="return confirm('Obnovit tohoto uživatele?');"></a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -86,7 +86,7 @@
 
 <style>
     .admin-section h1 {
-        color: #667eea;
+        color: #33665a;
         font-size: 2rem;
     }
 
@@ -103,7 +103,7 @@
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #33665a 0%, #22463c 100%);
         color: white;
     }
 
@@ -120,10 +120,10 @@
     }
 
     .section-box h2 {
-        color: #667eea;
+        color: #33665a;
         margin-bottom: 1.5rem;
         font-size: 1.3rem;
-        border-bottom: 2px solid #667eea;
+        border-bottom: 2px solid #33665a;
         padding-bottom: 0.5rem;
     }
 
@@ -139,7 +139,7 @@
         background-color: #f5f5f5;
         border-radius: 6px;
         font-weight: bold;
-        color: #667eea;
+        color: #33665a;
         margin-bottom: 0.5rem;
     }
 

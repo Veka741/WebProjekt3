@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title ?? 'Přihlášení – Portál adopce koček') ?></title>
+    <title><?= esc($title ?? 'Přihlášení – Útulek koček') ?></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        .logo, .login-card h1 { font-family: 'Fraunces', Georgia, serif; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Karla', 'Segoe UI', system-ui, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #f3eee3;
             display: flex;
             flex-direction: column;
         }
 
         /* ── header matching layout.php ── */
         header {
-            background: linear-gradient(135deg, #bec4dfff 0%, #000000ff 100%);
+            background: #355c4d;
             color: white;
             padding: 1.5rem 0;
             box-shadow: 0 4px 15px rgba(0,0,0,.2);
@@ -88,7 +92,7 @@
         }
         input:focus {
             outline: none;
-            border-color: #7c90d4;
+            border-color: #33665a;
             box-shadow: 0 0 0 3px rgba(124,144,212,.2);
         }
 
@@ -105,7 +109,7 @@
         .btn-login {
             width: 100%;
             padding: .85rem;
-            background: linear-gradient(135deg, #bec4dfff 0%, #2c3e50 100%);
+            background: #c2603f;
             color: white;
             border: none;
             border-radius: 8px;
@@ -122,7 +126,7 @@
             display: block;
             text-align: center;
             margin-top: 1rem;
-            color: #7c90d4;
+            color: #33665a;
             font-size: .9rem;
             text-decoration: none;
         }
@@ -132,7 +136,7 @@
             margin-top: 1.5rem;
             padding: .75rem 1rem;
             background: #e8f4fd;
-            border-left: 4px solid #7c90d4;
+            border-left: 4px solid #33665a;
             border-radius: 6px;
             font-size: .82rem;
             color: #555;
@@ -152,7 +156,7 @@
 
 <header>
     <div class="container">
-        <div class="logo">🐱 Adopce Koček</div>
+        <div class="logo"> Adopce Koček</div>
     </div>
 </header>
 

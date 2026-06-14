@@ -5,7 +5,7 @@
 <?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Správa koček' => '/manage', 'Přidat novou' => null]) ?>
 
 <div class="form-section">
-    <h1>➕ Přidat novou kočku</h1>
+    <h1>Přidat novou kočku</h1>
 
     <?php if (!empty($errors ?? [])): ?>
         <div class="alert alert-error show" style="margin-bottom: 2rem;">
@@ -71,7 +71,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary btn-large">✓ Přidat kočku</button>
+            <button type="submit" class="btn btn-primary btn-large">Přidat kočku</button>
             <a href="/manage" class="btn btn-secondary btn-large">← Zpět</a>
         </div>
     </form>
@@ -103,7 +103,7 @@ tinymce.init({
     }
 
     .form-section h1 {
-        color: #667eea;
+        color: #33665a;
         margin-bottom: 2rem;
         font-size: 2rem;
     }
@@ -150,7 +150,7 @@ tinymce.init({
     textarea:focus,
     select:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #33665a;
         box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
     }
 
@@ -193,7 +193,7 @@ tinymce.init({
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #33665a 0%, #22463c 100%);
         color: white;
     }
 
@@ -242,7 +242,7 @@ tinymce.init({
     }
 
     .breadcrumb-item a {
-        color: #667eea;
+        color: #33665a;
         text-decoration: none;
     }
 

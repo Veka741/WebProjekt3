@@ -8,9 +8,9 @@
         <div class="detail-image">
             <?php if (!empty($photo['image_path'])): ?>
                 <img src="<?= base_url('images/' . $photo['image_path']) ?>" alt="<?= esc($cat['name']) ?>"
-                     onerror="this.parentNode.innerHTML='<div class=&quot;placeholder&quot;>🐱</div>';">
+                     onerror="this.parentNode.innerHTML='<div class=&quot;placeholder&quot;></div>';">
             <?php else: ?>
-                <div class="placeholder">🐱</div>
+                <div class="placeholder"></div>
             <?php endif; ?>
         </div>
 
@@ -50,17 +50,17 @@
     .detail-image img { width: 100%; height: 100%; object-fit: cover; }
     .detail-image .placeholder {
         width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-        font-size: 100px; background: linear-gradient(135deg, #9098bd 0%, #856e9c 100%);
+        font-size: 100px; background: linear-gradient(135deg, #6f8f84 0%, #22463c 100%);
     }
     .detail-body { padding: 2rem; }
-    .detail-body h1 { color: #667eea; font-size: 2rem; margin-bottom: 1rem; }
-    .detail-body h2 { color: #764ba2; font-size: 1.2rem; margin: 1.5rem 0 0.8rem; border-bottom: 2px solid #eee; padding-bottom: 0.3rem; }
+    .detail-body h1 { color: #33665a; font-size: 2rem; margin-bottom: 1rem; }
+    .detail-body h2 { color: #22463c; font-size: 1.2rem; margin: 1.5rem 0 0.8rem; border-bottom: 2px solid #eee; padding-bottom: 0.3rem; }
     .detail-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; color: #555; margin-bottom: 1rem; }
     .long-text {
-        background: #f9f9f9; border-left: 4px solid #667eea; border-radius: 6px;
+        background: #f9f9f9; border-left: 4px solid #33665a; border-radius: 6px;
         padding: 1.2rem 1.5rem; color: #444; line-height: 1.7;
     }
-    .long-text :is(h1,h2,h3) { color: #667eea; margin: 0.5rem 0; }
+    .long-text :is(h1,h2,h3) { color: #33665a; margin: 0.5rem 0; }
     .long-text p { margin: 0.6rem 0; }
     .long-text ul, .long-text ol { margin: 0.6rem 0 0.6rem 1.5rem; }
     .detail-actions { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
@@ -68,7 +68,7 @@
         display: inline-block; padding: 0.7rem 1.5rem; border-radius: 6px; text-decoration: none;
         border: none; cursor: pointer; font-weight: 500; color: #fff;
     }
-    .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .btn-primary { background: linear-gradient(135deg, #33665a 0%, #22463c 100%); }
     .btn-secondary { background: #999; }
 </style>
 <?= $this->endSection() ?>

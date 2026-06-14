@@ -9,8 +9,8 @@
 
     <?php if (empty($cats)): ?>
         <div style="background-color: white; padding: 3rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-            <p style="font-size: 1.2rem; color: #667eea; margin-bottom: 1rem;">Zatím nejsou žádné adoptované kočky.</p>
-            <a href="/gallery" style="color: #8b91afff; text-decoration: none; font-weight: bold;">→ Podívejte se na naši galerii</a>
+            <p style="font-size: 1.2rem; color: #33665a; margin-bottom: 1rem;">Zatím nejsou žádné adoptované kočky.</p>
+            <a href="/gallery" style="color: #cf6a4c; text-decoration: none; font-weight: bold;">→ Podívejte se na naši galerii</a>
         </div>
     <?php else: ?>
         <div class="success-grid">
@@ -22,7 +22,7 @@
                         <?php else: ?>
                             <div class="placeholder"> </div>
                         <?php endif; ?>
-                        <div class="adopted-badge">✓ <?= esc(mb_strtoupper(\App\Libraries\CatStatus::label('adopted'))) ?></div>
+                        <div class="adopted-badge"><?= esc(mb_strtoupper(\App\Libraries\CatStatus::label('adopted'))) ?></div>
                     </div>
 
                     <div class="success-info">
@@ -58,7 +58,7 @@
     }
 
     .success-header {
-        background: linear-gradient(135deg, #8f99c5ff 0%, #a393b3ff 100%);
+        background: linear-gradient(135deg, #33665a 0%, #22463c 100%);
         color: white;
         padding: 3rem 2rem;
         border-radius: 10px;
@@ -113,7 +113,7 @@
     .placeholder {
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #33665a 0%, #22463c 100%);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -139,7 +139,7 @@
     }
 
     .success-info h3 {
-        color: #667eea;
+        color: #33665a;
         font-size: 1.5rem;
         margin-bottom: 0.5rem;
     }
@@ -159,7 +159,7 @@
         padding: 1rem;
         border-radius: 6px;
         margin: 1rem 0;
-        border-left: 3px solid #667eea;
+        border-left: 3px solid #33665a;
     }
 
     .cat-description p {
@@ -183,7 +183,7 @@
 
     .detail-label {
         font-weight: bold;
-        color: #667eea;
+        color: #33665a;
     }
 
     .detail-item span:last-child {

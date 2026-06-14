@@ -1,197 +1,160 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?? 'Portál adopce koček' ?></title>
+    <title><?= $title ?? 'Adopce koček' ?></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --green: #355c4d;
+            --green-dark: #243f35;
+            --terra: #c2603f;
+            --terra-dark: #a84e30;
+            --paper: #f3eee3;
+            --card: #fffdf8;
+            --ink: #2b2a26;
+            --muted: #6f6a5f;
+            --line: #e3dccc;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
+            font-family: 'Karla', 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--paper);
+            color: var(--ink);
             min-height: 100vh;
+            line-height: 1.6;
         }
 
+        h1, h2, h3, h4 {
+            font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--green-dark);
+        }
+
+        a { color: var(--terra-dark); }
+
+        .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+        /* ---- Header ---- */
         header {
-            background: linear-gradient(135deg, #bec4dfff 0%, #000000ff 100%);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            background-color: var(--green);
+            color: #f3eee3;
+            border-bottom: 4px solid var(--terra);
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        header .container { padding-top: 1.1rem; padding-bottom: 1.1rem; }
 
         nav {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: baseline;
             flex-wrap: wrap;
-            gap: 2rem;
+            gap: 1.2rem;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #fff;
+            letter-spacing: 0.3px;
         }
+        .logo .dot { color: var(--terra); }
 
         nav ul {
             list-style: none;
             display: flex;
-            gap: 2rem;
+            gap: 1.4rem;
             flex-wrap: wrap;
+            align-items: baseline;
         }
 
-        nav a {
-            color: white;
+        nav a.nav-link {
+            color: #ece6d8;
             text-decoration: none;
-            transition: all 0.3s;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
+            font-weight: 500;
+            font-size: 1.02rem;
+            padding-bottom: 3px;
+            border-bottom: 2px solid transparent;
+            transition: border-color .15s, color .15s;
         }
+        nav a.nav-link:hover { color: #fff; border-bottom-color: var(--terra); }
 
-        nav a:hover {
-            background-color: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
+        main { min-height: calc(100vh - 210px); padding: 2.6rem 0 3.2rem; }
 
-        main {
-            min-height: calc(100vh - 200px);
-            padding: 3rem 0;
-        }
-
+        /* ---- Footer ---- */
         footer {
-            background-color: #2c3e50;
-            color: white;
+            background-color: var(--green-dark);
+            color: #cdd6cf;
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            padding: 1.6rem 0;
+            font-size: .92rem;
         }
 
+        /* ---- Alerts ---- */
         .alert {
-            padding: 1rem 1.5rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-            display: none;
+            padding: .85rem 1.2rem;
+            margin-bottom: 1.6rem;
+            border-radius: 4px;
             border-left: 4px solid;
-            animation: slideIn 0.3s ease-out;
+            font-size: .98rem;
         }
+        .alert-success { background-color: #e7efe6; color: #2c4a35; border-left-color: var(--green); }
+        .alert-error   { background-color: #f6e3dd; color: #7c2f1c; border-left-color: var(--terra-dark); }
 
-        .alert.show {
-            display: block;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-left-color: #28a745;
-        }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border-left-color: #dc3545;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* ── Drobečková navigace (breadcrumbs) ── */
+        /* ---- Breadcrumbs ---- */
         .breadcrumb {
             list-style: none;
             display: flex;
             flex-wrap: wrap;
-            gap: 0.4rem;
-            background-color: rgba(102, 126, 234, 0.1);
-            padding: 0.75rem 1rem;
-            border-radius: 5px;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
+            gap: .4rem;
+            margin-bottom: 1.8rem;
+            font-size: .92rem;
+            color: var(--muted);
         }
-        .breadcrumb-item + .breadcrumb-item::before {
-            content: "/";
-            padding-right: 0.4rem;
-            color: #999;
-        }
-        .breadcrumb-item a { color: #667eea; text-decoration: none; }
+        .breadcrumb-item + .breadcrumb-item::before { content: "/"; padding-right: .4rem; color: #b8b0a0; }
+        .breadcrumb-item a { color: var(--terra-dark); text-decoration: none; }
         .breadcrumb-item a:hover { text-decoration: underline; }
-        .breadcrumb-item.active { color: #666; }
+        .breadcrumb-item.active { color: var(--muted); }
 
-        /* ── Modální okno (potvrzení mazání) ── */
+        /* ---- Modal ---- */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(36, 63, 53, .55);
             z-index: 1000;
             align-items: center;
             justify-content: center;
         }
         .modal-overlay.open { display: flex; }
         .modal-box {
-            background: #fff;
-            border-radius: 10px;
-            padding: 2rem;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: slideIn 0.2s ease-out;
-        }
-        .modal-box h3 { color: #dc3545; margin-bottom: 1rem; }
-        .modal-box p { margin-bottom: 1.5rem; color: #444; }
-        .modal-actions { display: flex; gap: 1rem; justify-content: flex-end; }
-        .modal-actions .btn {
-            padding: 0.6rem 1.3rem;
+            background: var(--card);
+            border: 1px solid var(--line);
             border-radius: 6px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 0.95rem;
-            color: #fff;
+            padding: 1.8rem;
+            max-width: 430px;
+            width: 90%;
+            box-shadow: 0 14px 40px rgba(36,63,53,.25);
         }
-        .modal-btn-cancel { background: #999; }
-        .modal-btn-confirm { background: #dc3545; }
+        .modal-box h3 { color: var(--terra-dark); margin-bottom: .9rem; }
+        .modal-box p { margin-bottom: 1.4rem; color: var(--ink); }
+        .modal-actions { display: flex; gap: .8rem; justify-content: flex-end; }
+        .modal-actions .btn {
+            padding: .55rem 1.2rem; border-radius: 4px; text-decoration: none;
+            border: none; cursor: pointer; font-size: .95rem; color: #fff; font-family: inherit;
+        }
+        .modal-btn-cancel { background: #8d877a; }
+        .modal-btn-confirm { background: var(--terra-dark); }
 
         @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 0.5rem;
-                width: 100%;
-            }
-
-            .logo {
-                font-size: 1.3rem;
-            }
+            nav { flex-direction: column; align-items: flex-start; gap: .8rem; }
+            nav ul { gap: 1rem; }
         }
     </style>
 </head>
@@ -199,35 +162,18 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo">Adopce Koček</div>
+                <div class="logo">Adopce koček<span class="dot">.</span></div>
                 <ul>
-                    <li>
-                        <?= anchor('/', 'Domů', 'nav-link'); ?>
-                    </li>
-                    <li>
-                        <?= anchor('gallery', 'Galerie', 'nav-link'); ?>
-                    </li>
-                    <li>
-                        <?= anchor('success', 'Úspěšné adopce', 'nav-link'); ?>
-                    </li>
-                    <?php
-                    // Check if user is logged in via Ion Auth session
-                    $isLoggedIn = (bool) session('user_id');
-                    ?>
+                    <li><?= anchor('/', 'Domů', 'nav-link'); ?></li>
+                    <li><?= anchor('gallery', 'Galerie', 'nav-link'); ?></li>
+                    <li><?= anchor('success', 'Úspěšné adopce', 'nav-link'); ?></li>
+                    <?php $isLoggedIn = (bool) session('user_id'); ?>
                     <?php if ($isLoggedIn): ?>
-                    <li>
-                        <?= anchor('manage', 'Správa', 'nav-link'); ?>
-                    </li>
-                    <li>
-                        <?= anchor('admin/users', 'Uživatelé', 'nav-link'); ?>
-                    </li>
-                    <li>
-                        <?= anchor('auth/logout', '🚪 Odhlásit', 'nav-link'); ?>
-                    </li>
+                        <li><?= anchor('manage', 'Správa', 'nav-link'); ?></li>
+                        <li><?= anchor('admin/users', 'Uživatelé', 'nav-link'); ?></li>
+                        <li><?= anchor('auth/logout', 'Odhlásit', 'nav-link'); ?></li>
                     <?php else: ?>
-                    <li>
-                        <?= anchor('auth/login', '🔑 Přihlásit', 'nav-link'); ?>
-                    </li>
+                        <li><?= anchor('auth/login', 'Přihlásit', 'nav-link'); ?></li>
                     <?php endif; ?>
                 </ul>
             </nav>
@@ -237,15 +183,11 @@
     <main>
         <div class="container">
             <?php if (session()->has('success')): ?>
-                <div class="alert alert-success show">
-                    ✓ <?= session('success') ?>
-                </div>
+                <div class="alert alert-success"><?= session('success') ?></div>
             <?php endif; ?>
 
             <?php if (session()->has('error')): ?>
-                <div class="alert alert-error show">
-                    ✗ <?= session('error') ?>
-                </div>
+                <div class="alert alert-error"><?= session('error') ?></div>
             <?php endif; ?>
 
             <?= $this->renderSection('content') ?>
@@ -254,7 +196,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Portál adopce koček. Všechna práva vyhrazena.</p>
+            <p>&copy; 2026 Adopce koček &middot; studentský projekt</p>
         </div>
     </footer>
 </body>

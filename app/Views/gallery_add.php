@@ -4,7 +4,7 @@
 <?= (new \App\Libraries\Breadcrumb())->render(['Domů' => '/', 'Galerie fotek' => '/gallery', 'Přidat fotku' => null]) ?>
 
 <div class="form-section">
-    <h1>➕ Přidat fotku</h1>
+    <h1>Přidat fotku</h1>
 
     <?php if (!empty($errors ?? [])): ?>
         <div class="alert alert-error show" style="margin-bottom: 2rem;">
@@ -40,7 +40,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary btn-large">✓ Nahrát fotku</button>
+            <button type="submit" class="btn btn-primary btn-large">Nahrát fotku</button>
             <a href="/gallery" class="btn btn-secondary btn-large">← Zpět</a>
         </div>
     </form>
@@ -51,7 +51,7 @@
         background: #fff; padding: 2rem; border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;
     }
-    .form-section h1 { color: #667eea; margin-bottom: 2rem; font-size: 2rem; }
+    .form-section h1 { color: #33665a; margin-bottom: 2rem; font-size: 2rem; }
     .cat-form { display: flex; flex-direction: column; }
     .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
     label { font-weight: bold; color: #333; margin-bottom: 0.5rem; }
@@ -65,7 +65,7 @@
         border: none; font-size: 1rem; font-weight: 500;
     }
     .btn-large { padding: 1rem 2rem; font-size: 1.1rem; }
-    .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; }
+    .btn-primary { background: linear-gradient(135deg, #33665a 0%, #22463c 100%); color: #fff; }
     .btn-secondary { background: #999; color: #fff; }
 </style>
 <?= $this->endSection() ?>

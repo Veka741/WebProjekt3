@@ -33,7 +33,7 @@
             <p>Procházejte naši galerii nebo přidejte vlastní inzerát.</p>
             <div class="cta-buttons">
                 <a href="/gallery" class="btn btn-primary"> Procházet galerii</a>
-                <a href="/manage/add" class="btn btn-secondary">➕ Přidat inzerát</a>
+                <a href="/manage/add" class="btn btn-secondary">Přidat inzerát</a>
             </div>
         </div>
     </div>
@@ -118,7 +118,7 @@
 
     .btn-primary {
         background-color: white;
-        color: #667eea;
+        color: #33665a;
     }
 
     .btn-primary:hover {

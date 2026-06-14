@@ -31,9 +31,9 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                     <div class="photo-img">
                         <img src="<?= base_url('images/' . $photo['image_path']) ?>"
                              alt="<?= esc($photo['cat_name'] ?? 'Kočka') ?>"
-                             onerror="this.parentNode.innerHTML='<div class=&quot;placeholder&quot;>🐱</div>';">
+                             onerror="this.parentNode.innerHTML='<div class=&quot;placeholder&quot;></div>';">
                         <?php if (($photo['cat_status'] ?? '') === 'reserved'): ?>
-                            <span class="reserved-badge">✓ <?= esc(\App\Libraries\CatStatus::label('reserved')) ?></span>
+                            <span class="reserved-badge"><?= esc(\App\Libraries\CatStatus::label('reserved')) ?></span>
                         <?php endif; ?>
                     </div>
                     <div class="photo-info">
@@ -53,7 +53,7 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
                             </div>
                         <?php endif; ?>
 
-                        <p class="owner">✉ <?= esc($photo['owner_email'] ?? 'Neznámý inzerent') ?></p>
+                        <p class="owner"><?= esc($photo['owner_email'] ?? 'Neznámý inzerent') ?></p>
                         <a href="<?= site_url('gallery/detail/' . $photo['cat_id']) ?>" class="detail-link">Číst podrobný popis →</a>
                         <p class="date">Přidáno: <?= esc($photo['created_at'] ?? '') ?></p>
                         <?php if (session('user_id')): ?>
@@ -106,10 +106,10 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
 </script>
 
 <style>
-    .gallery-section h1 { color: #667eea; font-size: 2rem; }
+    .gallery-section h1 { color: #33665a; font-size: 2rem; }
     .total-info { color: #555; margin-bottom: 1.5rem; }
     .btn-add {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #33665a 0%, #22463c 100%);
         color: #fff; padding: 0.7rem 1.4rem; border-radius: 6px; text-decoration: none;
     }
     .btn-add:hover { transform: translateY(-2px); }
@@ -134,41 +134,41 @@ echo (new \App\Libraries\Breadcrumb())->render($crumbs);
     }
     .placeholder {
         width: 100%; height: 200px; display: flex; align-items: center; justify-content: center;
-        font-size: 70px; background: linear-gradient(135deg, #9098bd 0%, #856e9c 100%);
+        font-size: 70px; background: linear-gradient(135deg, #6f8f84 0%, #22463c 100%);
     }
     .photo-info { padding: 1rem; flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem; }
-    .photo-info h3 { color: #667eea; font-size: 1.1rem; }
-    .photo-info h3 .cat-link { color: #667eea; text-decoration: none; }
+    .photo-info h3 { color: #33665a; font-size: 1.1rem; }
+    .photo-info h3 .cat-link { color: #33665a; text-decoration: none; }
     .photo-info h3 .cat-link:hover { text-decoration: underline; }
-    .photo-info .detail-link { color: #764ba2; font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+    .photo-info .detail-link { color: #22463c; font-weight: 600; font-size: 0.9rem; text-decoration: none; }
     .photo-info .detail-link:hover { text-decoration: underline; }
-    .photo-info .breed { color: #764ba2; font-weight: 600; font-size: 0.95rem; }
+    .photo-info .breed { color: #22463c; font-weight: 600; font-size: 0.95rem; }
     .photo-info .details { color: #666; font-size: 0.9rem; }
     .photo-info .cat-description {
         background-color: #f9f9f9; padding: 0.8rem; border-radius: 6px;
-        border-left: 3px solid #667eea;
+        border-left: 3px solid #33665a;
     }
     .photo-info .cat-description p { color: #555; line-height: 1.5; font-size: 0.9rem; }
-    .photo-info .owner { color: #667eea; font-size: 0.85rem; word-break: break-all; }
+    .photo-info .owner { color: #33665a; font-size: 0.85rem; word-break: break-all; }
     .photo-info .date { color: #999; font-size: 0.85rem; }
     .btn-reserve {
-        margin-top: auto; background: #df4580; color: #fff; border: none; cursor: pointer;
+        margin-top: auto; background: #cf6a4c; color: #fff; border: none; cursor: pointer;
         padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.9rem;
     }
-    .btn-reserve:hover { background: #dd0f76; }
+    .btn-reserve:hover { background: #b9543a; }
     .btn-reserve:disabled { background: #9e9e9e; cursor: default; }
 
     .empty-box {
         background: #fff; padding: 3rem; border-radius: 10px; text-align: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: #667eea; font-size: 1.2rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: #33665a; font-size: 1.2rem;
     }
     .pager-wrap { margin-top: 2rem; display: flex; justify-content: center; }
     .pager-wrap nav ul { list-style: none; display: flex; gap: 0.3rem; }
     .pager-wrap a, .pager-wrap strong {
         display: inline-block; padding: 0.5rem 0.9rem; border-radius: 6px;
-        text-decoration: none; background: #fff; color: #667eea;
+        text-decoration: none; background: #fff; color: #33665a;
         box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
-    .pager-wrap .active strong { background: #667eea; color: #fff; }
+    .pager-wrap .active strong { background: #33665a; color: #fff; }
 </style>
 <?= $this->endSection() ?>
