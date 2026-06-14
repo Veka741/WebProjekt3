@@ -188,7 +188,7 @@ class Manage extends BaseController
     }
 
     /**
-     * Softdelete – archivuje kočku (uloží datum a čas do deleted_at).
+     * Soft delete – smaže kočku (uloží datum a čas do deleted_at, lze obnovit z DB).
      */
     public function softDelete($id)
     {
@@ -198,9 +198,9 @@ class Manage extends BaseController
         }
 
         if ($this->catModel->delete($id)) {
-            session()->setFlashdata('success', 'Kočka byla archivována!');
+            session()->setFlashdata('success', 'Kočka byla smazána!');
         } else {
-            session()->setFlashdata('error', 'Chyba při archivaci');
+            session()->setFlashdata('error', 'Chyba při mazání kočky');
         }
 
         return redirect()->to('/manage');

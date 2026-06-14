@@ -63,7 +63,7 @@
                             <a href="/manage/adopt/<?= $cat['id'] ?>" class="btn btn-small btn-adopt" onclick="return confirm('Označit tuto kočku jako adoptovanou?');">Adoptovaná</a>
                         <?php endif; ?>
                         <button type="button" class="btn btn-small btn-archive"
-                                onclick="openDeleteModal('<?= site_url('manage/soft-delete/'.$cat['id']) ?>', '<?= esc($cat['name'], 'js') ?>')">Archivovat</button>
+                                onclick="openDeleteModal('<?= site_url('manage/soft-delete/'.$cat['id']) ?>', '<?= esc($cat['name'], 'js') ?>')">Smazat</button>
                         <?php if (!empty($cat['photo_id'])): ?>
                             <button type="button" class="btn btn-small btn-photo-delete"
                                     onclick="openPhotoModal('<?= site_url('manage/delete-photo/'.$cat['photo_id']) ?>', '<?= esc($cat['name'], 'js') ?>')">Smazat fotku</button>
@@ -75,14 +75,14 @@
     <?php endif; ?>
 </div>
 
-<!-- Modální okno pro potvrzení archivace (mazání) -->
+<!-- Modální okno pro potvrzení smazání kočky (soft delete) -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-box">
-        <h3>Archivovat kočku?</h3>
-        <p>Opravdu chcete archivovat kočku <strong id="deleteModalName"></strong>? Záznam zůstane uložen (softdelete) a lze jej obnovit.</p>
+        <h3>Smazat kočku?</h3>
+        <p>Opravdu chcete smazat kočku <strong id="deleteModalName"></strong>? Mazání je vratné (soft delete) – záznam zůstane uložen v databázi.</p>
         <div class="modal-actions">
             <button type="button" class="btn modal-btn-cancel" onclick="closeDeleteModal()">Zrušit</button>
-            <a href="#" id="deleteModalConfirm" class="btn modal-btn-confirm">Archivovat</a>
+            <a href="#" id="deleteModalConfirm" class="btn modal-btn-confirm">Smazat</a>
         </div>
     </div>
 </div>
