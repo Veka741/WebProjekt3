@@ -49,10 +49,41 @@ class Cat extends Model
      * @return array<int,array<string,mixed>> Pole koček; každá obsahuje navíc
      *                                        klíče 'photo' a 'breed'.
      */
-    public function getCatsWithDetails(?string $status = null): array
+    public function getCatsWithDetails(?string $status = null, ?int $limit = null): array
     {
-        $builder = $this
-            ->select('cats.*, ANY_VALUE(photos.id) AS photo_id, ANY_VALUE(photos.image_path) AS photo, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
+        $builder = $this->applyDetailsQuery($status);
+
+        return $limit !== null ? $builder->findAll($limit) : $builder->findAll();
+    }
+
+    /**
+     * Stejný výpis koček jako getCatsWithDetails(), ale se stránkováním.
+     *
+     * Co dělá:
+     *   Vrátí jen jednu stránku koček (kvůli rychlosti – při stovkách inzerátů
+     *   by se jinak vykreslovalo všechno najednou). Objekt stránkovače je pak
+     *   dostupný přes $model->pager.
+     *
+     * @param int         $perPage Počet koček na jednu stránku.
+     * @param string|null $status  Filtr na stav (např. 'available'); null = bez filtru.
+     *
+     * @return array<int,array<string,mixed>> Pole koček pro aktuální stránku.
+     */
+    public function paginateCatsWithDetails(int $perPage, ?string $status = null): array
+    {
+        return $this->applyDetailsQuery($status)->paginate($perPage);
+    }
+
+    /**
+     * Sestaví společný dotaz pro výpis koček s fotkou a plemeny (JOINy).
+     *
+     * @param string|null $status Filtr na stav; null = bez filtru.
+     *
+     * @return self Model s nastaveným dotazem (pro findAll/paginate).
+     */
+    private function applyDetailsQuery(?string $status = null): self
+    {
+        $this->select('cats.*, ANY_VALUE(photos.id) AS photo_id, ANY_VALUE(photos.image_path) AS photo, GROUP_CONCAT(DISTINCT breeds.name SEPARATOR ", ") AS breed')
             ->join('photos', 'photos.cat_id = cats.id AND photos.deleted_at IS NULL', 'left')
             ->join('cat_breeds', 'cat_breeds.cat_id = cats.id', 'left')
             ->join('breeds', 'breeds.id = cat_breeds.breed_id', 'left')
@@ -61,10 +92,10 @@ class Cat extends Model
             ->orderBy('cats.created_at', 'DESC');
 
         if ($status !== null) {
-            $builder->where('cats.status', $status);
+            $this->where('cats.status', $status);
         }
 
-        return $builder->findAll();
+        return $this;
     }
 
     /**

@@ -30,9 +30,12 @@ class Manage extends BaseController
      */
     public function index()
     {
+        $perPage = config('Gallery')->perPage;
+
         return view('manage', [
             'title'  => 'Správa koček - Portál adopce',
-            'cats'   => $this->catModel->getCatsWithDetails(),
+            'cats'   => $this->catModel->paginateCatsWithDetails($perPage),
+            'pager'  => $this->catModel->pager,
             'counts' => $this->catModel->countByStatus(),
         ]);
     }

@@ -72,6 +72,10 @@
                 </div>
             <?php endforeach; ?>
         </div>
+
+        <?php if (isset($pager)): ?>
+            <div class="pager-wrap"><?= $pager->links('default', 'cz_full') ?></div>
+        <?php endif; ?>
     <?php endif; ?>
 </div>
 
@@ -345,5 +349,21 @@
             width: 100%;
         }
     }
+
+    .pager-wrap { margin-top: 2.4rem; display: flex; justify-content: center; }
+    .pager-wrap .pagination {
+        list-style: none; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+    }
+    .pager-wrap .pagination a,
+    .pager-wrap .pagination span {
+        display: inline-block; padding: .55rem 1rem; border-radius: 8px; font-weight: 700;
+        text-decoration: none; font-size: .95rem;
+    }
+    .pager-wrap .pagination a {
+        background: var(--card); color: var(--green); border: 1px solid var(--line);
+    }
+    .pager-wrap .pagination a:hover { background: var(--green); color: #fff; border-color: var(--green); }
+    .pager-wrap .pagination .is-disabled span { color: #b6ad9c; background: transparent; }
+    .pager-wrap .pagination .page-info span { color: var(--muted); font-weight: 600; }
 </style>
 <?= $this->endSection() ?>
