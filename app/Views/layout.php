@@ -7,6 +7,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 (CSS framework). Načítá se PŘED vlastními styly, aby náš vzhled mohl Bootstrap přepsat. -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         :root {
             --green: #355c4d;
@@ -207,5 +209,8 @@
             <p>&copy; 2026 Adopce koček </p>
         </div>
     </footer>
+
+    <!-- Bootstrap 5 JS bundle (Popper + komponenty) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
