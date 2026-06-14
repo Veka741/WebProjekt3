@@ -60,10 +60,10 @@ class AdminUsers extends BaseController
             ];
 
             if ($this->userModel->insert($data)) {
-                session()->setFlashdata('success', '✓ Uživatel byl úspěšně přidán!');
+                session()->setFlashdata('success', 'Uživatel byl úspěšně přidán!');
                 return redirect()->to('/admin/users');
             } else {
-                session()->setFlashdata('error', '✗ Chyba při přidávání uživatele!');
+                session()->setFlashdata('error', 'Chyba při přidávání uživatele!');
             }
         }
 
@@ -101,7 +101,7 @@ class AdminUsers extends BaseController
             ];
 
             if ($this->userModel->update($id, $updateData)) {
-                session()->setFlashdata('success', '✓ Uživatel byl aktualizován!');
+                session()->setFlashdata('success', 'Uživatel byl aktualizován!');
                 return redirect()->to('/admin/users');
             }
         }
@@ -122,9 +122,9 @@ class AdminUsers extends BaseController
         }
 
         if ($this->userModel->delete($id)) {
-            session()->setFlashdata('success', '✓ Uživatel byl archivován!');
+            session()->setFlashdata('success', 'Uživatel byl smazán!');
         } else {
-            session()->setFlashdata('error', '✗ Chyba při archivaci');
+            session()->setFlashdata('error', 'Chyba při mazání uživatele');
         }
 
         return redirect()->to('/admin/users');
@@ -139,9 +139,9 @@ class AdminUsers extends BaseController
         }
 
         if ($this->userModel->update($id, ['deleted_at' => null])) {
-            session()->setFlashdata('success', '✓ Uživatel byl obnoven!');
+            session()->setFlashdata('success', 'Uživatel byl obnoven!');
         } else {
-            session()->setFlashdata('error', '✗ Chyba při obnovení');
+            session()->setFlashdata('error', 'Chyba při obnovení');
         }
 
         return redirect()->to('/admin/users');

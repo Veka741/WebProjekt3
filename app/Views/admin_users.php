@@ -38,9 +38,9 @@
                             </span>
                         </div>
                         <div class="col-actions">
-                            <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">editovat</a>
-                            <button type="button" class="btn-action btn-delete" title="Archivovat"
-                                    onclick="openDeleteModal('<?= site_url('admin/users/soft-delete/'.$user['id']) ?>', '<?= esc($user['username'], 'js') ?>')"></button>
+                            <a href="/admin/users/edit/<?= $user['id'] ?>" class="btn-action btn-edit" title="Editovat">Editovat</a>
+                            <button type="button" class="btn-action btn-delete" title="Smazat"
+                                    onclick="openDeleteModal('<?= site_url('admin/users/soft-delete/'.$user['id']) ?>', '<?= esc($user['username'], 'js') ?>')">Smazat</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -48,10 +48,10 @@
         <?php endif; ?>
     </div>
 
-    <!-- Archivovaní uživatelé -->
+    <!-- Smazaní uživatelé -->
     <?php if (!empty($deletedUsers)): ?>
         <div class="section-box" style="margin-top: 2rem; opacity: 0.8;">
-            <h2>Archivovaní uživatelé (<?= count($deletedUsers) ?>)</h2>
+            <h2>Smazaní uživatelé (<?= count($deletedUsers) ?>)</h2>
             
             <div class="users-table">
                 <div class="table-header">
@@ -75,7 +75,7 @@
                             </span>
                         </div>
                         <div class="col-actions">
-                            <a href="/admin/users/restore/<?= $user['id'] ?>" class="btn-action btn-restore" title="Obnovit" onclick="return confirm('Obnovit tohoto uživatele?');"></a>
+                            <a href="/admin/users/restore/<?= $user['id'] ?>" class="btn-action btn-restore" title="Obnovit" onclick="return confirm('Obnovit tohoto uživatele?');">Obnovit</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -254,11 +254,11 @@
 <!-- Modální okno pro potvrzení archivace uživatele -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-box">
-        <h3>Archivovat uživatele?</h3>
-        <p>Opravdu chcete archivovat uživatele <strong id="deleteModalName"></strong>? Záznam zůstane uložen (softdelete) a lze jej obnovit.</p>
+        <h3>Smazat uživatele?</h3>
+        <p>Opravdu chcete smazat uživatele <strong id="deleteModalName"></strong>? Mazání je vratné (soft delete) – uživatel se přesune mezi smazané a jde ho obnovit.</p>
         <div class="modal-actions">
             <button type="button" class="btn modal-btn-cancel" onclick="closeDeleteModal()">Zrušit</button>
-            <a href="#" id="deleteModalConfirm" class="btn modal-btn-confirm">Archivovat</a>
+            <a href="#" id="deleteModalConfirm" class="btn modal-btn-confirm">Smazat</a>
         </div>
     </div>
 </div>
