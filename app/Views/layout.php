@@ -43,23 +43,27 @@
 
         /* ---- Header ---- */
         header {
-            background-color: var(--green);
-            color: #f3eee3;
+            background-color: var(--green-dark);
+            color: #fff;
             border-bottom: 4px solid var(--terra);
+            box-shadow: 0 3px 12px rgba(0,0,0,.18);
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
-        header .container { padding-top: 1.1rem; padding-bottom: 1.1rem; }
+        header .container { padding-top: .9rem; padding-bottom: .9rem; }
 
         nav {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 1.2rem;
+            gap: 1rem;
         }
 
         .logo {
             font-family: 'Fraunces', Georgia, serif;
-            font-size: 1.7rem;
+            font-size: 1.85rem;
             font-weight: 600;
             color: #fff;
             letter-spacing: 0.3px;
@@ -69,21 +73,22 @@
         nav ul {
             list-style: none;
             display: flex;
-            gap: 1.4rem;
+            gap: .35rem;
             flex-wrap: wrap;
-            align-items: baseline;
+            align-items: center;
         }
 
-        nav a.nav-link {
-            color: #ece6d8;
+        nav ul a {
+            color: #f7f2e7;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 1.02rem;
-            padding-bottom: 3px;
-            border-bottom: 2px solid transparent;
-            transition: border-color .15s, color .15s;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: .5rem .9rem;
+            border-radius: 7px;
+            transition: background-color .15s, color .15s;
         }
-        nav a.nav-link:hover { color: #fff; border-bottom-color: var(--terra); }
+        nav ul a:hover { background-color: rgba(255,255,255,.16); color: #fff; }
+        nav ul a.active { background-color: var(--terra); color: #fff; }
 
         main { min-height: calc(100vh - 210px); padding: 2.6rem 0 3.2rem; }
 
@@ -161,19 +166,22 @@
 <body>
     <header>
         <div class="container">
+            <?php
+                $cur = trim(uri_string(), '/');
+                $active = fn (string $p) => ($p === '' ? $cur === '' : str_starts_with($cur, $p)) ? 'active' : '';
+            ?>
             <nav>
-                <div class="logo">Adopce koček<span class="dot">.</span></div>
+                <a href="<?= site_url('/') ?>" class="logo" style="text-decoration:none">Adopce koček<span class="dot">.</span></a>
                 <ul>
-                    <li><?= anchor('/', 'Domů', 'nav-link'); ?></li>
-                    <li><?= anchor('gallery', 'Galerie', 'nav-link'); ?></li>
-                    <li><?= anchor('success', 'Úspěšné adopce', 'nav-link'); ?></li>
-                    <?php $isLoggedIn = (bool) session('user_id'); ?>
-                    <?php if ($isLoggedIn): ?>
-                        <li><?= anchor('manage', 'Správa', 'nav-link'); ?></li>
-                        <li><?= anchor('admin/users', 'Uživatelé', 'nav-link'); ?></li>
-                        <li><?= anchor('auth/logout', 'Odhlásit', 'nav-link'); ?></li>
+                    <li><a href="<?= site_url('/') ?>" class="<?= $active('') ?>">Domů</a></li>
+                    <li><a href="<?= site_url('gallery') ?>" class="<?= $active('gallery') ?>">Galerie</a></li>
+                    <li><a href="<?= site_url('success') ?>" class="<?= $active('success') ?>">Úspěšné adopce</a></li>
+                    <?php if ((bool) session('user_id')): ?>
+                        <li><a href="<?= site_url('manage') ?>" class="<?= $active('manage') ?>">Správa</a></li>
+                        <li><a href="<?= site_url('admin/users') ?>" class="<?= $active('admin') ?>">Uživatelé</a></li>
+                        <li><a href="<?= site_url('auth/logout') ?>">Odhlásit</a></li>
                     <?php else: ?>
-                        <li><?= anchor('auth/login', 'Přihlásit', 'nav-link'); ?></li>
+                        <li><a href="<?= site_url('auth/login') ?>" class="<?= $active('auth') ?>">Přihlásit</a></li>
                     <?php endif; ?>
                 </ul>
             </nav>
