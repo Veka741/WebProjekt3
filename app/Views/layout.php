@@ -204,7 +204,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 Adopce koček &middot; studentský projekt</p>
+            <p>&copy; 2026 Adopce koček </p>
         </div>
     </footer>
 </body>

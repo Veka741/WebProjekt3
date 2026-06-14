@@ -57,9 +57,9 @@
     <h2>Jak adopce probíhá</h2>
     <div class="steps">
         <div class="step"><span class="step-no">1</span><p>Projděte si galerii koček, které u nás zrovna hledají domov.</p></div>
-        <div class="step"><span class="step-no">2</span><p>U každé kočky si přečtete povahu, věk, plemeno a celý příběh.</p></div>
-        <div class="step"><span class="step-no">3</span><p>Vyberete si tu svou a domluvíte se na osobním seznámení.</p></div>
-        <div class="step"><span class="step-no">4</span><p>Když si sednete, kočka jede domů a nám přibyde další šťastný příběh.</p></div>
+        <div class="step"><span class="step-no">2</span><p>U koček si můžete přečíst povahu, věk, plemeno.</p></div>
+        <div class="step"><span class="step-no">3</span><p>Vyberete si tu svou a domluvíte se na osobním setkání.</p></div>
+        <div class="step"><span class="step-no">4</span><p>Kočička našla svůj domov.</p></div>
     </div>
 </section>
 
